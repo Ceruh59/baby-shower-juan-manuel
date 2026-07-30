@@ -1,87 +1,109 @@
 /**
- * rsvp.js (Fase 8.2) — Formulario de confirmación de asistencia.
+ * rsvp.js — Confirmación multi-asistente + confeti/globos al éxito.
  *
- * Flujo:
- * 1. El botón de envío solo se habilita con nombre + opción elegida.
- * 2. Honeypot invisible: si está lleno → es un bot → se finge éxito y no
- *    se envía nada (capa anti-spam; las demás están en PLAN.md §10).
- * 3. Al enviar: estado "Enviando…" → saveRsvp() en Firestore.
- * 4. Éxito: el form se reemplaza por el bloque de éxito (check que se
- *    dibuja vía animations.css) + celebración discreta de partículas
- *    (canvas ~1.6s, desactivada con prefers-reduced-motion).
- * 5. Error: mensaje suave y botón rehabilitado para reintentar.
- * 6. localStorage: quien ya confirmó ve el éxito directamente y no puede
- *    duplicar el envío.
- *
- * Textos: SIEMPRE desde content.js (TEXTS.rsvp).
+ * Cada nombre se guarda como documento independiente en Firestore
+ * (reglas: { name, attending, createdAt }).
+ * No se usa localStorage para forzar el inicio desde arriba en cada visita.
  */
 
 import { saveRsvp } from '../firebase/db.js';
 import { TEXTS } from '../data/content.js';
 
-const STORAGE_KEY = 'rsvp_sent';
-const CELEBRATION_MS = 1600;
-const PARTICLE_COUNT = 22;
-const PARTICLE_COLORS = ['#7FA8C9', '#E8C87E', '#B98E63', '#D9BC96'];
-
-/* localStorage a prueba de modo incógnito (puede lanzar excepción) */
-const storage = {
-  get() {
-    try {
-      return window.localStorage.getItem(STORAGE_KEY);
-    } catch {
-      return null;
-    }
-  },
-  set() {
-    try {
-      window.localStorage.setItem(STORAGE_KEY, '1');
-    } catch {
-      /* sin persistencia: solo se duplicaría el form en la próxima visita */
-    }
-  },
-};
+const MAX_GUESTS = 10;
+const CELEBRATION_MS = 3200;
 
 export function initRsvp() {
   const form = document.getElementById('rsvp-form');
   const successBlock = document.querySelector('.rsvp-success');
-  if (!form || !successBlock) return;
+  const guestList = document.getElementById('guest-list');
+  const addBtn = document.getElementById('btn-add-guest');
+  if (!form || !successBlock || !guestList || !addBtn) return;
 
-  const nameInput = document.getElementById('rsvp-name');
   const submitButton = form.querySelector('button[type="submit"]');
   const status = form.querySelector('.form-status');
-  if (!nameInput || !submitButton || !status) return;
+  if (!submitButton || !status) return;
 
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* Quien ya confirmó ve el éxito directo (anti-duplicados) */
-  if (storage.get() === '1') {
-    showSuccess();
-    return;
+  function guestInputs() {
+    return [...guestList.querySelectorAll('input[name="guest"]')];
   }
 
-  /* Habilitar envío solo con el formulario completo */
-  function updateSubmitState() {
-    const hasName = nameInput.value.trim().length > 0;
-    const hasChoice = form.elements.attending.value !== '';
-    submitButton.disabled = !(hasName && hasChoice);
+  function updateRemoveButtons() {
+    const rows = guestList.querySelectorAll('[data-guest]');
+    rows.forEach((row) => {
+      const btn = row.querySelector('.guest-remove');
+      if (!btn) return;
+      btn.hidden = rows.length <= 1;
+    });
+    addBtn.hidden = rows.length >= MAX_GUESTS;
   }
-  form.addEventListener('input', updateSubmitState);
+
+  function updateSubmitState() {
+    const names = guestInputs().map((i) => i.value.trim()).filter(Boolean);
+    const hasNames = names.length > 0 && guestInputs().every((i) => i.value.trim().length > 0);
+    const hasChoice = form.elements.attending.value !== '';
+    submitButton.disabled = !(hasNames && hasChoice);
+  }
+
+  function bindRow(row) {
+    const input = row.querySelector('input[name="guest"]');
+    const remove = row.querySelector('.guest-remove');
+    if (input) {
+      input.addEventListener('input', updateSubmitState);
+    }
+    if (remove) {
+      remove.addEventListener('click', () => {
+        if (guestList.querySelectorAll('[data-guest]').length <= 1) return;
+        row.remove();
+        updateRemoveButtons();
+        updateSubmitState();
+      });
+    }
+  }
+
+  guestList.querySelectorAll('[data-guest]').forEach(bindRow);
+
+  addBtn.addEventListener('click', () => {
+    const count = guestList.querySelectorAll('[data-guest]').length;
+    if (count >= MAX_GUESTS) return;
+
+    const row = document.createElement('div');
+    row.className = 'guest-row field';
+    row.dataset.guest = '';
+    row.innerHTML = `
+      <label>
+        Nombre del asistente
+        <input name="guest" type="text" required minlength="1" maxlength="80"
+               autocomplete="name" placeholder="Escribe el nombre">
+      </label>
+      <button type="button" class="guest-remove" aria-label="Quitar asistente">×</button>
+    `;
+    guestList.appendChild(row);
+    bindRow(row);
+    updateRemoveButtons();
+    updateSubmitState();
+    row.querySelector('input')?.focus();
+  });
+
   form.addEventListener('change', updateSubmitState);
+  updateRemoveButtons();
   updateSubmitState();
 
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
 
-    // Honeypot: los bots lo llenan; se les finge éxito sin enviar nada
     if (form.elements.website.value !== '') {
       showSuccess();
       return;
     }
 
-    const name = nameInput.value.trim().slice(0, 80);
-    const choice = form.elements.attending.value; // 'yes' | 'no'
-    if (name === '' || choice === '') return;
+    const names = guestInputs()
+      .map((i) => i.value.trim().slice(0, 80))
+      .filter((n) => n.length > 0);
+
+    const choice = form.elements.attending.value;
+    if (names.length === 0 || choice === '') return;
 
     submitButton.disabled = true;
     submitButton.textContent = TEXTS.rsvp.sendingButton;
@@ -89,10 +111,10 @@ export function initRsvp() {
     status.classList.remove('is-error');
 
     try {
-      await saveRsvp({ name, attending: choice === 'yes' });
-      storage.set();
+      const attending = choice === 'yes';
+      await Promise.all(names.map((name) => saveRsvp({ name, attending })));
       showSuccess();
-      celebrate();
+      if (attending) celebrate();
     } catch (error) {
       console.error('[rsvp] Error al guardar:', error);
       status.textContent = TEXTS.rsvp.errorMessage;
@@ -105,15 +127,9 @@ export function initRsvp() {
   function showSuccess() {
     form.hidden = true;
     successBlock.hidden = false;
-    successBlock.classList.add('is-visible'); // el check se dibuja (animations.css)
-    successBlock.scrollIntoView({
-      behavior: prefersReduced ? 'auto' : 'smooth',
-      block: 'center',
-    });
+    successBlock.classList.add('is-visible');
   }
 
-  /* Celebración discreta: ~22 partículas flotando hacia arriba 1.6s.
-     Canvas 2D ligero; se elimina solo al terminar. */
   function celebrate() {
     if (prefersReduced) return;
 
@@ -128,24 +144,48 @@ export function initRsvp() {
     document.body.appendChild(canvas);
 
     const ctx = canvas.getContext('2d');
-    const dpr = window.devicePixelRatio || 1;
-    canvas.width = window.innerWidth * dpr;
-    canvas.height = window.innerHeight * dpr;
-    ctx.scale(dpr, dpr);
+    if (!ctx) {
+      canvas.remove();
+      return;
+    }
 
-    const originX = window.innerWidth / 2;
-    const originY = window.innerHeight / 2;
-    const particles = Array.from({ length: PARTICLE_COUNT }, () => ({
-      x: originX + (Math.random() - 0.5) * 80,
-      y: originY,
-      vx: (Math.random() - 0.5) * 1.6,
-      vy: -(1.2 + Math.random() * 2.2),
-      size: 3 + Math.random() * 4,
-      color: PARTICLE_COLORS[Math.floor(Math.random() * PARTICLE_COLORS.length)],
-      rotation: Math.random() * Math.PI,
-      spin: (Math.random() - 0.5) * 0.1,
+    const dpr = window.devicePixelRatio || 1;
+    const resize = () => {
+      canvas.width = window.innerWidth * dpr;
+      canvas.height = window.innerHeight * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+    resize();
+
+    const W = () => window.innerWidth;
+    const H = () => window.innerHeight;
+    const colors = ['#7EB6D9', '#E8C98A', '#F0B7C4', '#9BC4E2', '#C4A574', '#FFFFFF', '#A8D4F0'];
+
+    // Confeti + globos
+    const confetti = Array.from({ length: 70 }, () => ({
+      x: Math.random() * W(),
+      y: -20 - Math.random() * H() * 0.4,
+      w: 5 + Math.random() * 7,
+      h: 8 + Math.random() * 10,
+      vx: (Math.random() - 0.5) * 3,
+      vy: 2 + Math.random() * 4,
+      rot: Math.random() * Math.PI,
+      spin: (Math.random() - 0.5) * 0.2,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      kind: 'confetti',
     }));
 
+    const balloons = Array.from({ length: 18 }, () => ({
+      x: Math.random() * W(),
+      y: H() + 30 + Math.random() * 120,
+      r: 10 + Math.random() * 14,
+      vx: (Math.random() - 0.5) * 0.8,
+      vy: -(1.4 + Math.random() * 2.2),
+      color: colors[Math.floor(Math.random() * colors.length)],
+      kind: 'balloon',
+    }));
+
+    const particles = [...confetti, ...balloons];
     const start = performance.now();
 
     function frame(now) {
@@ -154,20 +194,49 @@ export function initRsvp() {
         canvas.remove();
         return;
       }
-      const fade = 1 - elapsed / CELEBRATION_MS;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      const fade = elapsed > CELEBRATION_MS - 600
+        ? (CELEBRATION_MS - elapsed) / 600
+        : 1;
+
+      ctx.clearRect(0, 0, W(), H());
 
       particles.forEach((p) => {
-        p.x += p.vx;
-        p.y += p.vy;
-        p.rotation += p.spin;
-        ctx.save();
-        ctx.globalAlpha = fade;
-        ctx.translate(p.x, p.y);
-        ctx.rotate(p.rotation);
-        ctx.fillStyle = p.color;
-        ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
-        ctx.restore();
+        if (p.kind === 'confetti') {
+          p.x += p.vx;
+          p.y += p.vy;
+          p.vy += 0.04;
+          p.rot += p.spin;
+          ctx.save();
+          ctx.globalAlpha = fade;
+          ctx.translate(p.x, p.y);
+          ctx.rotate(p.rot);
+          ctx.fillStyle = p.color;
+          ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+          ctx.restore();
+        } else {
+          p.x += p.vx + Math.sin((now + p.x) * 0.002) * 0.4;
+          p.y += p.vy;
+          ctx.save();
+          ctx.globalAlpha = fade * 0.9;
+          // balloon body
+          const grd = ctx.createRadialGradient(p.x - p.r * 0.3, p.y - p.r * 0.35, 2, p.x, p.y, p.r);
+          grd.addColorStop(0, '#fff');
+          grd.addColorStop(0.35, p.color);
+          grd.addColorStop(1, p.color);
+          ctx.fillStyle = grd;
+          ctx.beginPath();
+          ctx.ellipse(p.x, p.y, p.r * 0.85, p.r, 0, 0, Math.PI * 2);
+          ctx.fill();
+          // string
+          ctx.strokeStyle = 'rgba(90,111,134,0.4)';
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y + p.r);
+          ctx.lineTo(p.x, p.y + p.r + 22);
+          ctx.stroke();
+          ctx.restore();
+        }
       });
 
       requestAnimationFrame(frame);

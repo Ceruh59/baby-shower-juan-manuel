@@ -1,10 +1,13 @@
 /**
- * story.js — Coreografía del cuento: split del nombre + parallax suave.
- *
- * - Parte "Juan Manuel" en letras para la entrada cinematic post-welcome.
- * - Parallax de capas [data-depth] en el hero (solo transform).
- * - Activa body.is-entered al evento invitation:entered (o ya si no hay overlay).
+ * story.js — Split del nombre, elefantes que vuelan con scroll, inicio siempre arriba.
  */
+
+function forceStartAtTop() {
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
+  window.scrollTo(0, 0);
+}
 
 function splitHeroName() {
   const target = document.querySelector('[data-split]');
@@ -25,12 +28,9 @@ function splitHeroName() {
   target.dataset.splitDone = '1';
 }
 
-function initParallax() {
-  const root = document.querySelector('[data-parallax]');
-  if (!root) return;
-
-  const layers = [...root.querySelectorAll('[data-depth]')];
-  if (layers.length === 0) return;
+function initFlyingElephants() {
+  const floaters = [...document.querySelectorAll('.floater[data-fly]')];
+  if (floaters.length === 0) return;
 
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (prefersReduced) return;
@@ -38,28 +38,14 @@ function initParallax() {
   let ticking = false;
 
   const update = () => {
-    const hero = document.getElementById('hero');
-    if (!hero) return;
-
-    const rect = hero.getBoundingClientRect();
-    const viewH = window.innerHeight || 1;
-    // Progreso del hero en viewport: 0 centro → ± al salir
-    const progress = (viewH * 0.5 - (rect.top + rect.height * 0.5)) / viewH;
-
-    layers.forEach((layer) => {
-      const depth = Number.parseFloat(layer.dataset.depth) || 0;
-      const y = progress * depth * 140;
-      // Conservar translate centrado de anillos vía CSS; solo sumamos Y
-      const isRing = layer.classList.contains('hero__ring');
-      if (isRing) {
-        layer.style.translate = `0 ${y.toFixed(1)}px`;
-      } else if (layer.classList.contains('hero__moon')) {
-        layer.style.translate = `0 ${y.toFixed(1)}px`;
-      } else {
-        layer.style.translate = `0 ${y.toFixed(1)}px`;
-      }
+    const y = window.scrollY || window.pageYOffset || 0;
+    floaters.forEach((el) => {
+      const speed = Number.parseFloat(el.dataset.fly) || 1;
+      // Suben al hacer scroll hacia abajo (vuelan con los globos)
+      const offset = -y * speed * 0.35;
+      const sway = Math.sin((y + speed * 200) * 0.004) * 10;
+      el.style.transform = `translate3d(${sway.toFixed(1)}px, ${offset.toFixed(1)}px, 0)`;
     });
-
     ticking = false;
   };
 
@@ -73,20 +59,14 @@ function initParallax() {
   update();
 }
 
-function markEntered() {
-  document.body.classList.add('is-entered');
-}
-
 export function initStory() {
   document.documentElement.classList.add('js');
+  forceStartAtTop();
   splitHeroName();
-  initParallax();
+  initFlyingElephants();
 
-  // Si el overlay ya no existe (p. ej. noscript edge), entrar igual
+  // Por si no hay overlay
   if (!document.getElementById('welcome')) {
-    markEntered();
-    return;
+    document.body.classList.add('is-entered');
   }
-
-  document.addEventListener('invitation:entered', markEntered, { once: true });
 }

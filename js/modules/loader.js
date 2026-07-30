@@ -1,19 +1,49 @@
 /**
- * loader.js (Fase 5.3) — Overlay de bienvenida + desbloqueo de audio.
- *
- * Flujo:
- * 1. Mientras el overlay está visible, el scroll queda bloqueado
- *    (body.is-locked).
- * 2. El tap en "Ver invitación" es un GESTO DEL USUARIO → es el momento
- *    legítimo para intentar reproducir la música (los navegadores bloquean
- *    el autoplay sin gesto). Si falla, no pasa nada: el botón flotante
- *    (Fase 7) permite iniciarla después.
- * 3. El overlay hace fade out (.is-leaving) y se retira del DOM.
- * 4. Se emite 'invitation:entered' para que music.js (Fase 7) sincronice
- *    el estado de su botón.
+ * loader.js — Bienvenida + intro de nubes (tipo Simpson) + audio.
  */
 
-const EXIT_ANIMATION_MS = 950;
+const WELCOME_FADE_MS = 700;
+const CLOUD_INTRO_MS = 2400;
+
+function unlockAudio() {
+  const audio = document.getElementById('bg-music');
+  if (!audio) return;
+  audio.volume = 0.5;
+  const playAttempt = audio.play();
+  if (playAttempt) playAttempt.catch(() => {});
+}
+
+function playCloudIntro() {
+  return new Promise((resolve) => {
+    const intro = document.getElementById('cloud-intro');
+    if (!intro) {
+      resolve();
+      return;
+    }
+
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    intro.hidden = false;
+    intro.setAttribute('aria-hidden', 'false');
+
+    if (prefersReduced) {
+      intro.hidden = true;
+      intro.setAttribute('aria-hidden', 'true');
+      resolve();
+      return;
+    }
+
+    // Force reflow then animate
+    void intro.offsetWidth;
+    intro.classList.add('is-active');
+
+    window.setTimeout(() => {
+      intro.classList.remove('is-active');
+      intro.hidden = true;
+      intro.setAttribute('aria-hidden', 'true');
+      resolve();
+    }, CLOUD_INTRO_MS);
+  });
+}
 
 export function initLoader() {
   const overlay = document.getElementById('welcome');
@@ -21,28 +51,22 @@ export function initLoader() {
   if (!overlay || !enterButton) return;
 
   document.body.classList.add('is-locked');
-
-  // Accesibilidad: el overlay es role="dialog"; el foco inicia en su botón
-  // para que la navegación por teclado no quede tras el overlay.
   enterButton.focus();
 
   enterButton.addEventListener(
     'click',
-    () => {
+    async () => {
+      unlockAudio();
+
       overlay.classList.add('is-leaving');
+      await new Promise((r) => window.setTimeout(r, WELCOME_FADE_MS));
+      overlay.remove();
+
+      await playCloudIntro();
+
       document.body.classList.remove('is-locked');
-
-      // Desbloqueo de audio con el gesto del usuario
-      const audio = document.getElementById('bg-music');
-      if (audio) {
-        audio.volume = 0.5;
-        const playAttempt = audio.play();
-        if (playAttempt) playAttempt.catch(() => { /* el botón de música queda disponible */ });
-      }
-
+      document.body.classList.add('is-entered');
       document.dispatchEvent(new CustomEvent('invitation:entered'));
-
-      window.setTimeout(() => overlay.remove(), EXIT_ANIMATION_MS);
     },
     { once: true }
   );

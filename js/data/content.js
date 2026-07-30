@@ -30,21 +30,18 @@ export const EVENT = {
 export const TEXTS = {
   // 0. Bienvenida (overlay)
   welcome: {
-    eyebrow: 'Abre esta historia',
     title: 'Una sorpresa muy especial te espera',
     button: 'Ver invitación',
   },
 
   // 1. Hero
   hero: {
-    chapter: 'Capítulo I',
-    kicker: 'Estás invitado al Baby Shower de',
-    scrollHint: 'Desliza la historia',
+    kicker: 'Te invitamos al Baby Shower de',
+    scrollHint: 'Desliza',
   },
 
   // 2. Mensaje emotivo
   message: {
-    chapter: 'Capítulo II',
     title: 'Un mensaje con el corazón',
     text: 'Un pequeño milagro está por llegar y queremos celebrarlo contigo. Con mucha ilusión te invitamos a compartir la alegría de la llegada de nuestro bebé.',
     signature: 'Cristian & Luisa',
@@ -52,9 +49,7 @@ export const TEXTS = {
 
   // 3. Detalles
   details: {
-    chapter: 'Capítulo III',
     title: 'Detalles del evento',
-    lead: 'Todo lo que necesitas saber para acompañarnos',
     dateLabel: 'Fecha',
     timeLabel: 'Hora',
     venueLabel: 'Lugar',
@@ -62,9 +57,7 @@ export const TEXTS = {
 
   // 4. Cuenta regresiva
   countdown: {
-    chapter: 'Capítulo IV',
-    title: 'La espera más dulce',
-    lead: 'Cada segundo nos acerca al gran día',
+    title: 'Cuenta regresiva',
     days: 'Días',
     hours: 'Horas',
     minutes: 'Minutos',
@@ -74,21 +67,20 @@ export const TEXTS = {
 
   // 5. Ubicación
   location: {
-    chapter: 'Capítulo V',
     title: '¿Dónde te esperamos?',
     mapsButton: 'Cómo llegar',
   },
 
   // 6. RSVP
   rsvp: {
-    chapter: 'Capítulo VI',
     title: 'Confírmanos tu asistencia',
-    subtitle: 'Nos encantaría contar contigo en esta historia',
-    nameLabel: 'Tu nombre',
-    namePlaceholder: 'Escribe tu nombre',
-    attendingQuestion: '¿Asistirás?',
-    yesOption: 'Sí, ahí estaré',
-    noOption: 'No podré',
+    subtitle: 'Puedes agregar a toda tu familia o grupo',
+    nameLabel: 'Nombre del asistente',
+    namePlaceholder: 'Escribe el nombre',
+    addGuest: '+ Agregar otro asistente',
+    attendingQuestion: '¿Asistirán?',
+    yesOption: 'Sí, ahí estaremos',
+    noOption: 'No podremos',
     submitButton: 'Enviar respuesta',
     sendingButton: 'Enviando…',
     successTitle: '¡Gracias!',
@@ -98,7 +90,6 @@ export const TEXTS = {
 
   // 7. Cierre
   closing: {
-    chapter: 'Epílogo',
     message: '¡Te esperamos con los brazos abiertos!',
     signature: 'Con amor, Cristian & Luisa',
     footer: 'Baby Shower de Juan Manuel · 15.08.2026',

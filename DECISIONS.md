@@ -44,3 +44,7 @@
 | 2026-07-30 | Redesign | Lottie oso/elefante retirados del HTML; `lotties.js` fuera de main | Usuario no quiere esos dibujos; ornamentación SVG/CSS (luna, anillos, monograma) hasta que aporte assets propios |
 | 2026-07-30 | Redesign | Módulo `story.js`: split del nombre + parallax hero + `body.is-entered` | Coreografía de entrada post-overlay y profundidad al scroll sin librerías nuevas |
 | 2026-07-30 | Redesign | Reveals con `data-reveal` (up/left/right/scale/fade) | Variedad cinematográfica al scroll manteniendo solo transform/opacity |
+| 2026-07-30 | Assets | Fondo cuadros fijo (`fondo.webp`) + elefantes/nubes del cliente en WebP | Usuario aportó PNG/JPEG; convertidos a WebP (~410 KB) para peso y transparencia |
+| 2026-07-30 | Motion | Intro nubes tipo Simpson tras "Ver invitación"; elefantes 3/4 vuelan con scrollY | Pedido explícito del usuario |
+| 2026-07-30 | RSVP | Multi-asistente (hasta 10 nombres → N docs Firestore); sin localStorage; confeti+globos al sí | Reglas Firestore siguen {name,attending,createdAt}; cada visita reinicia arriba |
+| 2026-07-30 | UX | `history.scrollRestoration = 'manual'` + scrollTo(0,0) al cargar | Evita reabrir en el fondo del scroll anterior |

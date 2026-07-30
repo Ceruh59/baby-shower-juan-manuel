@@ -1,18 +1,24 @@
 /**
- * main.js — Orquestador de la invitación (cuento interactivo).
- *
- * Datos del evento: SIEMPRE desde js/data/content.js
+ * main.js — Orquestador
  */
 
 import { initLoader } from './modules/loader.js';
 import { initReveal } from './modules/reveal.js';
 import { initStory } from './modules/story.js';
+import { initBalloons } from './modules/balloons.js';
 import { initCountdown } from './modules/countdown.js';
 import { initMusic } from './modules/music.js';
 import { initRsvp } from './modules/rsvp.js';
 
-initLoader();
+// Siempre empezar arriba (evita restaurar scroll al fondo)
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
+window.scrollTo(0, 0);
+
 initStory();
+initLoader();
+initBalloons();
 initReveal();
 initCountdown();
 initMusic();

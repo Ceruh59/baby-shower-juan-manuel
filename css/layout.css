@@ -1,81 +1,102 @@
 /* ==========================================================================
-   layout.css — Estructura de secciones y atmósfera
+   layout.css — Fondo fijo, capas y secciones
    ========================================================================== */
 
-body {
-  background:
-    radial-gradient(ellipse 120% 60% at 50% -10%, rgba(197, 217, 235, 0.9) 0%, transparent 55%),
-    radial-gradient(ellipse 80% 40% at 100% 40%, rgba(226, 201, 138, 0.12) 0%, transparent 50%),
-    radial-gradient(ellipse 70% 35% at 0% 70%, rgba(142, 180, 208, 0.15) 0%, transparent 50%),
-    linear-gradient(
-      180deg,
-      var(--bg-night-mist) 0%,
-      var(--bg-sky-soft) 18%,
-      var(--bg-cream) 48%,
-      var(--bg-paper) 72%,
-      var(--bg-sand) 100%
-    );
-  background-attachment: fixed;
-}
-
-/* Capa atmosférica fija */
-.atmosphere {
+/* Fondo cuadros: fijo en viewport, nunca se mueve con el scroll */
+.page-bg {
   position: fixed;
   inset: 0;
   z-index: 0;
+  background-color: #A8C4DC;
+  background-image: url('../assets/images/fondo.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+/* Fallback si webp falla en navegadores muy viejos */
+@supports not (background-image: url('x.webp')) {
+  .page-bg {
+    background-image: url('../assets/images/fondo.jpeg');
+  }
+}
+
+/* Globos CSS flotando */
+.balloons {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
   pointer-events: none;
   overflow: hidden;
 }
 
-.atmosphere__orb {
+.balloon {
   position: absolute;
+  bottom: -80px;
+  width: 22px;
+  height: 28px;
+  border-radius: 50% 50% 50% 50% / 55% 55% 45% 45%;
+  opacity: 0.75;
+  will-change: transform, opacity;
+}
+
+.balloon::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  width: 1px;
+  height: 28px;
+  margin-left: -0.5px;
+  background: rgba(90, 111, 134, 0.35);
+  transform-origin: top center;
+}
+
+.balloon::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 4px;
+  width: 7px;
+  height: 10px;
+  margin-left: -8px;
   border-radius: 50%;
-  filter: blur(0);
-  opacity: 0.45;
+  background: rgba(255, 255, 255, 0.45);
 }
 
-.atmosphere__orb--1 {
-  top: 8%;
-  right: -8%;
-  width: 220px;
-  height: 220px;
-  background: radial-gradient(circle, rgba(243, 230, 196, 0.55), transparent 70%);
-}
-
-.atmosphere__orb--2 {
-  top: 45%;
-  left: -12%;
-  width: 280px;
-  height: 280px;
-  background: radial-gradient(circle, rgba(142, 180, 208, 0.35), transparent 70%);
-}
-
-.atmosphere__orb--3 {
-  bottom: 10%;
-  right: -5%;
-  width: 200px;
-  height: 200px;
-  background: radial-gradient(circle, rgba(196, 165, 116, 0.22), transparent 70%);
-}
-
-.atmosphere__stars {
-  position: absolute;
+/* Elefantes laterales que vuelan con scroll */
+.floaters {
+  position: fixed;
   inset: 0;
-  background-image:
-    radial-gradient(1.5px 1.5px at 12% 18%, rgba(255, 255, 255, 0.9), transparent),
-    radial-gradient(1px 1px at 28% 42%, rgba(226, 201, 138, 0.85), transparent),
-    radial-gradient(1.5px 1.5px at 72% 12%, rgba(255, 255, 255, 0.75), transparent),
-    radial-gradient(1px 1px at 88% 35%, rgba(226, 201, 138, 0.7), transparent),
-    radial-gradient(1.2px 1.2px at 45% 8%, rgba(255, 255, 255, 0.8), transparent),
-    radial-gradient(1px 1px at 60% 55%, rgba(255, 255, 255, 0.55), transparent),
-    radial-gradient(1.5px 1.5px at 18% 78%, rgba(226, 201, 138, 0.6), transparent),
-    radial-gradient(1px 1px at 82% 82%, rgba(255, 255, 255, 0.65), transparent);
-  opacity: 0.55;
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.floater {
+  position: absolute;
+  width: min(38vw, 170px);
+  height: auto;
+  filter: drop-shadow(0 16px 22px rgba(42, 61, 82, 0.28));
+  will-change: transform;
+  opacity: 0.95;
+}
+
+.floater--left {
+  left: -2%;
+  top: 55%;
+}
+
+.floater--right {
+  right: -2%;
+  top: 70%;
+  width: min(34vw, 150px);
 }
 
 main {
   position: relative;
-  z-index: 1;
+  z-index: 5;
 }
 
 main > section {
@@ -86,52 +107,103 @@ main > section {
   text-align: center;
 }
 
-main > section + section {
-  padding-top: var(--space-xl);
-}
-
-/* Hero fullscreen */
 #hero {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.35rem;
+  gap: 0.4rem;
   min-height: 100vh;
   min-height: 100svh;
   padding-top: var(--space-xl);
   padding-bottom: var(--space-lg);
-  overflow: hidden;
 }
 
-/* Overlay bienvenida */
+/* Welcome overlay */
 #welcome {
   position: fixed;
   inset: 0;
   z-index: 100;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--space-md);
   padding: var(--space-md);
   text-align: center;
   background:
-    radial-gradient(ellipse 80% 50% at 50% 30%, rgba(243, 230, 196, 0.25), transparent 60%),
-    linear-gradient(165deg, #9BB8D0 0%, #C5D9EB 42%, #E8F0F7 100%);
-  overflow: hidden;
+    linear-gradient(180deg, rgba(168, 196, 220, 0.55), rgba(168, 196, 220, 0.35)),
+    url('../assets/images/fondo.webp') center / cover no-repeat;
 }
 
-.welcome__glow {
-  position: absolute;
-  top: 18%;
-  left: 50%;
-  width: 280px;
-  height: 280px;
-  margin-left: -140px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(243, 230, 196, 0.45), transparent 70%);
+.welcome__inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-lg) var(--space-md);
+  max-width: 360px;
+  background: var(--card-glass);
+  border: 1px solid var(--panel-border);
+  border-radius: 32px;
+  box-shadow: var(--shadow-lift);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+
+.welcome__peek {
+  width: min(46vw, 160px);
+  height: auto;
+  filter: drop-shadow(0 12px 20px rgba(42, 61, 82, 0.2));
+}
+
+/* Cloud intro (Simpsons-style parting) */
+.cloud-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
   pointer-events: none;
+  overflow: hidden;
+  background: transparent;
+}
+
+.cloud-intro[hidden] {
+  display: none !important;
+}
+
+.cloud-intro.is-active {
+  display: block !important;
+}
+
+.cloud-intro__cloud {
+  position: absolute;
+  height: auto;
+  filter: drop-shadow(0 10px 18px rgba(42, 61, 82, 0.15));
+  will-change: transform, opacity;
+}
+
+.cloud-intro__cloud--1 {
+  width: min(95vw, 520px);
+  top: -8%;
+  left: -18%;
+}
+
+.cloud-intro__cloud--2 {
+  width: min(70vw, 380px);
+  top: -5%;
+  right: -16%;
+}
+
+.cloud-intro__cloud--3 {
+  width: min(75vw, 400px);
+  bottom: -8%;
+  left: -20%;
+}
+
+.cloud-intro__cloud--4 {
+  width: min(90vw, 500px);
+  bottom: -12%;
+  right: -22%;
 }
 
 .detalles__lista {
@@ -143,21 +215,26 @@ main > section + section {
 
 .noscript-note {
   position: relative;
-  z-index: 2;
+  z-index: 6;
   max-width: var(--content-max);
   margin: var(--space-md) auto;
   padding: var(--space-sm) var(--space-md);
-  background: var(--bg-sand);
+  background: var(--card-glass);
   border-radius: var(--radius-card);
   text-align: center;
   font-size: var(--fs-small);
+  box-shadow: var(--shadow-soft);
 }
 
 #cierre footer {
   margin-top: var(--space-xl);
   padding-top: var(--space-md);
   font-size: var(--fs-small);
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--texto-suave);
+}
+
+#cierre {
+  padding-bottom: calc(var(--space-2xl) + env(safe-area-inset-bottom, 0px) + 56px);
 }
