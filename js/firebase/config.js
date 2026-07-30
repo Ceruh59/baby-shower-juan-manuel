@@ -1,8 +1,8 @@
 /**
  * config.js — Credenciales públicas del proyecto Firebase.
  *
- * ⚠️ PENDIENTE (Fase 0.2): reemplazar los valores 'PEGA_AQUI' con la
- * configuración real. Se obtiene en:
+ * ✅ Configurado (Fase 0.2): valores reales del proyecto
+ * `baby-shower-juan-manuel`, obtenidos en:
  *   Firebase Console → Project settings (⚙️) → Your apps → Web app →
  *   SDK setup and configuration → "Config"
  *

@@ -32,3 +32,5 @@ Abrir `http://localhost:8080` (los ES Modules no funcionan con `file://`).
 - `DECISIONS.md` — bitácora de decisiones
 - `docs/GUIA-FIREBASE.md` — configuración de Firebase paso a paso
 - `docs/GUIA-GITHUB-PAGES.md` — publicación paso a paso
+- `docs/PANEL-PADRES.md` — cómo ver y contar las confirmaciones (para los padres)
+- `docs/CHECKLIST-FINAL.md` — QA final y pasos de difusión

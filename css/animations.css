@@ -1,0 +1,198 @@
+/* ==========================================================================
+   animations.css — Todos los @keyframes y clases de animación
+   REGLAS (PLAN.md §5):
+   - Animar SOLO transform y opacity.
+   - Todo loop se desactiva con prefers-reduced-motion (bloque al final).
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   5.1a Deriva de nubes: cruzan la pantalla lentamente (loops largos).
+   Los delays negativos hacen que al cargar ya estén "repartidas".
+   -------------------------------------------------------------------------- */
+@keyframes cloud-drift {
+  from { transform: translateX(0); }
+  to   { transform: translateX(calc(100vw + 300px)); }
+}
+
+.cloud--1 {
+  left: -140px;
+  animation: cloud-drift 85s linear infinite;
+  animation-delay: -18s;
+}
+
+.cloud--2 {
+  right: auto;
+  left: -100px;
+  animation: cloud-drift 120s linear infinite;
+  animation-delay: -60s;
+}
+
+.cloud--3 {
+  right: auto;
+  left: -80px;
+  animation: cloud-drift 70s linear infinite;
+  animation-delay: -42s;
+}
+
+/* --------------------------------------------------------------------------
+   5.1b Flotación suave (luna de bienvenida, ilustraciones Lottie)
+   -------------------------------------------------------------------------- */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+
+.welcome__moon {
+  animation: float 5s ease-in-out infinite;
+}
+
+.lottie {
+  animation: float 6s ease-in-out infinite;
+}
+
+#mensaje .lottie {
+  animation-delay: -3s;
+}
+
+/* --------------------------------------------------------------------------
+   5.1c Estrellas: parpadeo conjunto muy sutil
+   -------------------------------------------------------------------------- */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.55; }
+  50%      { opacity: 1; }
+}
+
+.stars {
+  animation: twinkle 4s ease-in-out infinite;
+}
+
+/* --------------------------------------------------------------------------
+   5.1d Hojas del mensaje: vaivén de ±3deg
+   -------------------------------------------------------------------------- */
+@keyframes sway {
+  0%, 100% { transform: rotate(-3deg); }
+  50%      { transform: rotate(3deg); }
+}
+
+#mensaje::before {
+  animation: sway 6s ease-in-out infinite;
+  transform-origin: bottom left;
+}
+
+#mensaje::after {
+  animation: sway 6s ease-in-out infinite;
+  animation-delay: -3s;
+  transform-origin: bottom right;
+}
+
+/* --------------------------------------------------------------------------
+   5.1e Indicador "Desliza ↓": rebote suave
+   -------------------------------------------------------------------------- */
+@keyframes bounce-soft {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(5px); }
+}
+
+.scroll-hint span {
+  display: inline-block;
+  animation: bounce-soft 1.6s ease-in-out infinite;
+}
+
+/* --------------------------------------------------------------------------
+   5.1f Ondas del botón de música (solo cuando suena)
+   -------------------------------------------------------------------------- */
+@keyframes wave {
+  0%, 100% { transform: scaleY(0.4); }
+  50%      { transform: scaleY(1); }
+}
+
+#music-btn[aria-pressed='true'] .music-btn__waves span {
+  animation: wave 1s ease-in-out infinite;
+}
+
+#music-btn[aria-pressed='true'] .music-btn__waves span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+#music-btn[aria-pressed='true'] .music-btn__waves span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+/* --------------------------------------------------------------------------
+   5.2 Reveal al hacer scroll.
+   GUARDIA: el estado oculto solo aplica si JS está activo (<html class="js">,
+   lo agrega reveal.js). Sin JS, el contenido siempre es visible.
+   -------------------------------------------------------------------------- */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.8s var(--ease-out-soft),
+              transform 0.8s var(--ease-out-soft);
+}
+
+.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* --------------------------------------------------------------------------
+   5.3 Salida del overlay de bienvenida + bloqueo de scroll mientras está
+   -------------------------------------------------------------------------- */
+body.is-locked {
+  overflow: hidden;
+}
+
+#welcome.is-leaving {
+  opacity: 0;
+  transform: scale(1.04);
+  transition: opacity 0.8s var(--ease-out-soft),
+              transform 0.8s var(--ease-out-soft);
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   5.7 Pulso de dígitos del countdown (Fase 6 agrega/quita .tick)
+   -------------------------------------------------------------------------- */
+@keyframes tick {
+  50% { transform: scale(1.08); opacity: 0.6; }
+}
+
+.countdown__number.tick {
+  animation: tick 0.3s var(--ease-out-soft);
+}
+
+/* --------------------------------------------------------------------------
+   5.8 Check del RSVP que "se dibuja" (Fase 8 agrega .is-visible)
+   -------------------------------------------------------------------------- */
+.rsvp-success__check polyline {
+  stroke-dasharray: 24;
+  stroke-dashoffset: 24;
+}
+
+@keyframes draw-check {
+  to { stroke-dashoffset: 0; }
+}
+
+.rsvp-success.is-visible .rsvp-success__check polyline {
+  animation: draw-check 0.6s var(--ease-out-soft) 0.15s forwards;
+}
+
+/* --------------------------------------------------------------------------
+   5.4 RESPETO A prefers-reduced-motion:
+   - Sin loops ni transiciones.
+   - Los .reveal son siempre visibles (reveal.js también los muestra directo).
+   - Lottie NO se carga (lotties.js muestra imagen estática o el halo).
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .js .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

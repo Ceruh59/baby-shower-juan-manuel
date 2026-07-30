@@ -23,8 +23,8 @@ export const EVENT = {
   mapsQuery:
     'Salón Social Balcones del Este, Cra 2 #22B-123, Pasto, Nariño, Colombia',
 
-  // Ruta del archivo de música (archivo propio del cliente)
-  audioSrc: 'assets/audio/musica.mp3',
+  // Ruta del archivo de música (archivo propio del cliente, optimizado a AAC)
+  audioSrc: 'assets/audio/musica.m4a',
 };
 
 export const TEXTS = {

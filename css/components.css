@@ -1,0 +1,467 @@
+/* ==========================================================================
+   components.css — Estilos visuales de cada componente (mobile-first)
+   Referencia: PLAN.md §4 (spec por sección) y §7 (paleta)
+   NOTA: aquí NO viven animaciones decorativas (eso es animations.css,
+   Fase 5). Solo transiciones de estados interactivos (hover/focus/press).
+   ========================================================================== */
+
+/* El atributo hidden siempre gana (bloques de éxito RSVP, mensaje countdown) */
+[hidden] {
+  display: none !important;
+}
+
+/* --------------------------------------------------------------------------
+   0. Botones compartidos
+   -------------------------------------------------------------------------- */
+.btn {
+  display: inline-block;
+  padding: 0.85rem 2rem;
+  border-radius: var(--radius-pill);
+  font-weight: 700;
+  text-decoration: none;
+  text-align: center;
+  transition: transform 0.2s var(--ease-out-soft),
+              box-shadow 0.2s var(--ease-out-soft),
+              background-color 0.2s var(--ease-out-soft);
+}
+
+.btn--primary {
+  background: var(--azul-profundo);
+  color: #fff;
+  box-shadow: var(--shadow-btn);
+}
+
+.btn--primary:hover {
+  background: #435F7B;
+  transform: translateY(-2px);
+}
+
+.btn--primary:active {
+  transform: translateY(0);
+}
+
+.btn--primary:disabled {
+  opacity: 0.5;
+  box-shadow: none;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* --------------------------------------------------------------------------
+   3.1 Bienvenida (overlay) — layout en layout.css
+   -------------------------------------------------------------------------- */
+.welcome__moon {
+  filter: drop-shadow(0 0 18px rgba(232, 200, 126, 0.55));
+}
+
+/* Campo de estrellas estático (Fase 5 les dará parpadeo) */
+.stars {
+  background-image:
+    radial-gradient(2px 2px at 15% 20%, var(--dorado-estrella), transparent),
+    radial-gradient(1.5px 1.5px at 80% 15%, #fff, transparent),
+    radial-gradient(2px 2px at 65% 70%, var(--dorado-estrella), transparent),
+    radial-gradient(1.5px 1.5px at 30% 80%, #fff, transparent),
+    radial-gradient(1px 1px at 45% 40%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 90% 50%, var(--dorado-estrella), transparent);
+}
+
+.welcome__title {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 1.55rem;
+  line-height: 1.35;
+  color: var(--azul-profundo);
+  max-width: 22ch;
+}
+
+/* --------------------------------------------------------------------------
+   3.2 Hero
+   -------------------------------------------------------------------------- */
+.hero__kicker {
+  font-size: var(--fs-kicker);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--texto-suave);
+}
+
+.hero__nombre {
+  font-size: var(--fs-hero-name);
+  font-style: italic;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.hero__fecha {
+  font-size: var(--fs-hero-date);
+  font-weight: 600;
+  color: var(--cafe-tierno);
+}
+
+/* Nubes decorativas (posición estática; la deriva es Fase 5) */
+.hero__clouds .cloud {
+  position: absolute;
+  fill: #fff;
+}
+
+.cloud--1 { top: 12%; left: -8%;  width: 110px; opacity: 0.85; }
+.cloud--2 { top: 22%; right: -6%; width: 80px;  opacity: 0.6; }
+.cloud--3 { top: 6%;  right: 22%; width: 58px;  opacity: 0.5; }
+
+/* Contenedores de ilustración Lottie (Fase 5). Mientras no haya JSON/PNG,
+   muestran un halo suave como placeholder elegante. */
+.lottie {
+  width: min(60vw, 240px);
+  aspect-ratio: 1;
+  margin: var(--space-md) auto 0;
+}
+
+.lottie:empty {
+  background: radial-gradient(circle, rgba(127, 168, 201, 0.18), transparent 70%);
+  border-radius: 50%;
+}
+
+#mensaje .lottie {
+  width: min(50vw, 180px);
+}
+
+.scroll-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: var(--space-lg);
+  font-size: var(--fs-small);
+  color: var(--texto-suave);
+  text-decoration: none;
+}
+
+/* --------------------------------------------------------------------------
+   3.2b Mensaje emotivo
+   -------------------------------------------------------------------------- */
+#mensaje {
+  position: relative; /* para las hojas decorativas */
+}
+
+/* Hojas suaves en las esquinas (SVG inline como fondo) */
+#mensaje::before,
+#mensaje::after {
+  content: '';
+  position: absolute;
+  width: 72px;
+  height: 72px;
+  opacity: 0.45;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237FA8C9' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M11 20A7 7 0 0 1 4 13c0-4 3-8 8-9 5-1 8 2 8 2s-1 8-5 11a7 7 0 0 1-4 3z'/%3E%3Cpath d='M4 21c4-6 8-9 12-11'/%3E%3C/svg%3E");
+}
+
+#mensaje::before { top: var(--space-md);  left: 0; }
+#mensaje::after  { bottom: var(--space-md); right: 0; transform: scaleX(-1); }
+
+.mensaje__texto {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.25rem;
+  line-height: 1.75;
+  max-width: 44ch;
+  margin: var(--space-md) auto 0;
+}
+
+.mensaje__firma {
+  font-family: var(--font-script);
+  font-size: 1.9rem;
+  color: var(--cafe-tierno);
+  margin-top: var(--space-md);
+}
+
+/* --------------------------------------------------------------------------
+   3.3 Tarjetas de detalles
+   -------------------------------------------------------------------------- */
+.card {
+  background: #fff;
+  border: 1px solid rgba(217, 188, 150, 0.35);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-soft);
+  padding: var(--space-md);
+}
+
+.card__icon {
+  width: 32px;
+  height: 32px;
+  margin: 0 auto var(--space-xs);
+  color: var(--azul-principal);
+}
+
+.card h3 {
+  margin-bottom: 0.25rem;
+}
+
+.card p {
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+/* --------------------------------------------------------------------------
+   3.4 Cuenta regresiva
+   -------------------------------------------------------------------------- */
+.countdown {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.countdown__item {
+  background: #fff;
+  border: 1px solid rgba(127, 168, 201, 0.25);
+  border-radius: 16px;
+  box-shadow: var(--shadow-soft);
+  padding: 0.9rem 0.5rem;
+  min-width: 70px;
+}
+
+.countdown__number {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.9rem;
+  color: var(--azul-profundo);
+  font-variant-numeric: tabular-nums;
+}
+
+.countdown__label {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--texto-suave);
+}
+
+.countdown__done {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.4rem;
+  color: var(--cafe-tierno);
+}
+
+/* --------------------------------------------------------------------------
+   3.5 Ubicación (mapa + botón)
+   -------------------------------------------------------------------------- */
+.ubicacion__direccion {
+  margin-bottom: var(--space-md);
+  line-height: 1.7;
+}
+
+.mapa {
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+  border: 1px solid rgba(217, 188, 150, 0.35);
+  margin-bottom: var(--space-md);
+}
+
+.mapa iframe {
+  width: 100%;
+  height: 300px;
+  border: 0;
+}
+
+/* --------------------------------------------------------------------------
+   3.6 RSVP (formulario + radio cards + éxito)
+   -------------------------------------------------------------------------- */
+#rsvp h2 {
+  margin-bottom: var(--space-xs);
+}
+
+.rsvp__subtitulo {
+  color: var(--texto-suave);
+  margin-bottom: var(--space-lg);
+}
+
+#rsvp-form {
+  display: grid;
+  gap: var(--space-md);
+  max-width: 420px;
+  margin-inline: auto;
+  text-align: left;
+}
+
+.field label,
+.field legend {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+.field input[type='text'] {
+  width: 100%;
+  padding: 0.9rem 1.1rem;
+  background: #fff;
+  border: 1.5px solid #D9E4EE;
+  border-radius: 14px;
+  transition: border-color 0.2s var(--ease-out-soft),
+              box-shadow 0.2s var(--ease-out-soft);
+}
+
+.field input[type='text']:focus {
+  outline: none;
+  border-color: var(--azul-principal);
+  box-shadow: 0 0 0 3px rgba(127, 168, 201, 0.25);
+}
+
+.field input[type='text']::placeholder {
+  color: var(--texto-suave);
+  opacity: 0.7;
+}
+
+fieldset.field {
+  border: none;
+}
+
+/* Radio cards: objetivos táctiles grandes (mín. 48px) */
+.radio-cards {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.radio-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 0.8rem 1rem;
+  background: #fff;
+  border: 1.5px solid #D9E4EE;
+  border-radius: 14px;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s var(--ease-out-soft),
+              background-color 0.2s var(--ease-out-soft),
+              box-shadow 0.2s var(--ease-out-soft);
+}
+
+.radio-card input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.radio-card:has(input:checked) {
+  border-color: var(--azul-principal);
+  background: var(--bg-celeste-niebla);
+  box-shadow: var(--shadow-soft);
+}
+
+.radio-card:has(input:focus-visible) {
+  outline: 3px solid var(--azul-principal);
+  outline-offset: 3px;
+}
+
+#rsvp-form .btn {
+  justify-self: center;
+}
+
+.form-status {
+  min-height: 1.5em;
+  font-size: var(--fs-small);
+  text-align: center;
+}
+
+.form-status.is-error {
+  color: var(--rosa-error);
+}
+
+/* Bloque de éxito (la animación del check es Fase 5) */
+.rsvp-success {
+  max-width: 420px;
+  margin-inline: auto;
+  padding: var(--space-lg) var(--space-md);
+  background: #fff;
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-soft);
+}
+
+.rsvp-success__check {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto var(--space-sm);
+  color: var(--azul-principal);
+}
+
+.rsvp-success h3 {
+  margin-bottom: 0.25rem;
+}
+
+/* --------------------------------------------------------------------------
+   3.7 Cierre
+   -------------------------------------------------------------------------- */
+.cierre__mensaje {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.35rem;
+  line-height: 1.5;
+  max-width: 26ch;
+  margin-inline: auto;
+}
+
+.cierre__firma {
+  font-family: var(--font-script);
+  font-size: 1.9rem;
+  color: var(--cafe-tierno);
+  margin-top: var(--space-md);
+}
+
+/* --------------------------------------------------------------------------
+   3.8 Botón flotante de música
+   -------------------------------------------------------------------------- */
+#music-btn {
+  position: fixed;
+  right: var(--space-sm);
+  bottom: calc(var(--space-sm) + env(safe-area-inset-bottom, 0px));
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.85);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(127, 168, 201, 0.3);
+  box-shadow: var(--shadow-soft);
+  color: var(--azul-profundo);
+}
+
+.music-btn__icon {
+  width: 22px;
+  height: 22px;
+}
+
+/* Ondas (visibles solo cuando suena; la animación es Fase 5) */
+.music-btn__waves {
+  display: none;
+  align-items: flex-end;
+  gap: 2px;
+  height: 16px;
+}
+
+.music-btn__waves span {
+  width: 3px;
+  height: 100%;
+  border-radius: 2px;
+  background: currentColor;
+  transform-origin: bottom;
+}
+
+.music-btn__waves span:nth-child(1) { transform: scaleY(0.5); }
+.music-btn__waves span:nth-child(2) { transform: scaleY(1); }
+.music-btn__waves span:nth-child(3) { transform: scaleY(0.7); }
+
+#music-btn[aria-pressed='true'] .music-btn__icon  { display: none; }
+#music-btn[aria-pressed='true'] .music-btn__waves { display: inline-flex; }

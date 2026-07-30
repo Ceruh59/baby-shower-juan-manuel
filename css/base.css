@@ -1,0 +1,196 @@
+/* ==========================================================================
+   base.css — Reset + Design Tokens + Utilidades
+   Referencia: PLAN.md §7 (paleta) y §8 (tipografías)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Design Tokens
+   -------------------------------------------------------------------------- */
+:root {
+  /* Fondos */
+  --bg-blanco-calido:  #FDFBF7;
+  --bg-celeste-niebla: #EAF3FA;
+  --bg-beige-suave:    #F4EDE3;
+  --bg-hero-tope:      #DCEAF6;
+
+  /* Acentos */
+  --azul-principal:    #7FA8C9;
+  --azul-profundo:     #4E6E8E;   /* botones y títulos (AA con blanco) */
+  --cafe-tierno:       #B98E63;
+  --cafe-claro:        #D9BC96;
+  --dorado-estrella:   #E8C87E;
+  --rosa-error:        #C97F7F;
+
+  /* Texto */
+  --texto-principal:   #44546A;
+  --texto-suave:       #7B8A9C;
+
+  /* Tipografías */
+  --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-body:    'Nunito', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-script:  'Dancing Script', 'Segoe Script', cursive;
+
+  /* Escala tipográfica móvil (Fase 2.3) */
+  --fs-body:       1.0625rem;  /* 17px */
+  --fs-small:      0.85rem;
+  --fs-kicker:     0.95rem;
+  --fs-h2:         1.625rem;   /* 26px */
+  --fs-hero-name:  clamp(2.6rem, 12vw, 4.5rem);
+  --fs-hero-date:  1.15rem;
+
+  /* Espaciado */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2.5rem;
+  --space-xl: 4rem;
+
+  /* Formas y sombras */
+  --radius-card: 20px;
+  --radius-pill: 999px;
+  --shadow-soft: 0 8px 24px rgba(78, 110, 142, 0.10);
+  --shadow-btn:  0 6px 16px rgba(78, 110, 142, 0.22);
+
+  /* Layout */
+  --content-max: 640px;
+
+  /* Movimiento */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* --------------------------------------------------------------------------
+   2. Reset suave
+   -------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Scroll suave para el enlace "Desliza" (solo si el usuario no pidió
+   reducir movimiento) */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+body {
+  min-height: 100vh;
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: 1.6;
+  color: var(--texto-principal);
+  background-color: var(--bg-blanco-calido);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  overflow-x: hidden;
+}
+
+img,
+svg,
+video,
+iframe {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+ul[role='list'],
+ol[role='list'] {
+  list-style: none;
+}
+
+a {
+  color: var(--azul-profundo);
+}
+
+::selection {
+  background: var(--azul-principal);
+  color: #fff;
+}
+
+/* Foco visible solo para navegación por teclado (accesibilidad) */
+:focus-visible {
+  outline: 3px solid var(--azul-principal);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* --------------------------------------------------------------------------
+   3. Tipografía base (Fase 2.3)
+   -------------------------------------------------------------------------- */
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--azul-profundo);
+}
+
+h2 {
+  font-size: var(--fs-h2);
+  letter-spacing: 0.01em;
+}
+
+h3 {
+  font-size: 1.15rem;
+}
+
+/* --------------------------------------------------------------------------
+   4. Utilidades obligatorias (usadas por index.html)
+   -------------------------------------------------------------------------- */
+
+/* Visualmente oculto pero accesible a lectores de pantalla */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Honeypot anti-bots: nunca visible ni enfocable */
+.hp {
+  display: none !important;
+}
+
+/* Enlace "Saltar al contenido": visible solo con foco de teclado */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: var(--space-sm);
+  z-index: 200;
+  padding: var(--space-xs) var(--space-sm);
+  background: var(--azul-profundo);
+  color: #fff;
+  border-radius: var(--radius-pill);
+  text-decoration: none;
+  transition: top 0.2s var(--ease-out-soft);
+}
+
+.skip-link:focus-visible {
+  top: var(--space-sm);
+}

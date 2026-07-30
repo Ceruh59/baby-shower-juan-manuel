@@ -30,5 +30,7 @@ Invitación digital (single-page, scroll vertical) para el Baby Shower de
 - Audio: NUNCA autoplay directo; se desbloquea con el tap de "Ver invitación".
 - Lazy-load: iframe del mapa, imágenes y JSON de Lottie.
 - Presupuesto: < 1 MB total sin contar el audio.
-- Textos SIEMPRE desde `js/data/content.js`, nunca hardcodear en HTML/JS.
+- Textos ESTÁTICOS: viven en `index.html` (SEO, OG, legibilidad sin JS).
+  Textos/DATOS usados por módulos JS (countdown, RSVP, música, mapas):
+  SIEMPRE desde `js/data/content.js` (no duplicar en los módulos).
 - Referencia completa: `PLAN.md`. Decisiones: `DECISIONS.md`.

@@ -1,0 +1,119 @@
+/* ==========================================================================
+   layout.css — Estructura de secciones, contenedor y fondo general
+   Mobile-first (360px de referencia). Breakpoints en responsive.css (Fase 4).
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Fondo general: degradado vertical muy sutil y continuo
+      (celeste pálido arriba → blanco cálido → beige al final)
+   -------------------------------------------------------------------------- */
+body {
+  background: linear-gradient(
+    180deg,
+    var(--bg-hero-tope) 0%,
+    var(--bg-celeste-niebla) 22%,
+    var(--bg-blanco-calido) 55%,
+    var(--bg-beige-suave) 100%
+  );
+  background-attachment: fixed; /* el degradado no "salta" al hacer scroll */
+}
+
+/* --------------------------------------------------------------------------
+   2. Contenedor de contenido: columna de invitación de 640px
+   -------------------------------------------------------------------------- */
+main > section {
+  max-width: var(--content-max);
+  margin-inline: auto;
+  padding: var(--space-xl) var(--space-md);
+  text-align: center;
+}
+
+/* Separación interna estándar de cada sección */
+main h2 {
+  margin-bottom: var(--space-lg);
+}
+
+/* --------------------------------------------------------------------------
+   3. Hero: ocupa toda la pantalla inicial
+   -------------------------------------------------------------------------- */
+#hero {
+  position: relative; /* las nubes se posicionan respecto a esta sección */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  min-height: 100vh;   /* fallback navegadores antiguos */
+  min-height: 100svh;  /* iOS: altura estable (evita el salto de 100dvh
+                          cuando Safari oculta su barra al hacer scroll) */
+}
+
+/* --------------------------------------------------------------------------
+   4. Overlay de bienvenida: pantalla completa fija
+   -------------------------------------------------------------------------- */
+#welcome {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-lg);
+  padding: var(--space-md);
+  text-align: center;
+  background: linear-gradient(
+    180deg,
+    #C9DDF0 0%,
+    var(--bg-hero-tope) 55%,
+    var(--bg-celeste-niebla) 100%
+  );
+}
+
+.welcome__sky {
+  position: relative;
+  width: 120px;
+  height: 120px;
+}
+
+.welcome__moon {
+  width: 72px;
+  height: 72px;
+  color: var(--azul-profundo);
+  margin-inline: auto;
+}
+
+/* Las estrellas se generan/animan en Fase 5 */
+.stars {
+  position: absolute;
+  inset: 0;
+}
+
+/* --------------------------------------------------------------------------
+   5. Listas y avisos
+   -------------------------------------------------------------------------- */
+.detalles__lista {
+  list-style: none;
+  display: grid;
+  gap: var(--space-md);
+}
+
+.noscript-note {
+  max-width: var(--content-max);
+  margin: var(--space-md) auto;
+  padding: var(--space-sm) var(--space-md);
+  background: var(--bg-beige-suave);
+  border-radius: var(--radius-card);
+  text-align: center;
+  font-size: var(--fs-small);
+}
+
+/* --------------------------------------------------------------------------
+   6. Cierre y footer
+   -------------------------------------------------------------------------- */
+#cierre footer {
+  margin-top: var(--space-xl);
+  padding-top: var(--space-md);
+  font-size: var(--fs-small);
+  color: var(--texto-suave);
+}

@@ -18,7 +18,7 @@
 | Hora | 4:00 p.m. (hora Colombia, UTC−5) |
 | Lugar | Salón Social Balcones del Este, Cra 2 #22B-123, Pasto, Nariño |
 | Distribución | URL por WhatsApp (GitHub Pages) |
-| Música | Archivo de audio propio del cliente (`assets/audio/musica.mp3`) |
+| Música | Archivo de audio propio del cliente (`assets/audio/musica.m4a`) |
 | Panel RSVP | Firebase Console (sin código adicional) |
 
 **Decisión:** el countdown usa el timestamp absoluto `2026-08-15T16:00:00-05:00`
@@ -242,7 +242,7 @@ Espaciado generoso, nada saturado.
 | Divisores de sección (nubes/onda) | SVG | Hechos a mano | < 3 KB |
 | **Imagen Open Graph** (preview WhatsApp) | JPG/WebP 1200×630 | Composición del hero (nombre + fecha + ilustración) | < 200 KB |
 | Favicon | SVG/PNG | Osito o luna simplificada | < 5 KB |
-| Música | MP3 | **Archivo propio del cliente** — ~128kbps, idealmente 1:30–3:00 min en loop | < 3 MB |
+| Música | AAC (`.m4a`) | **Archivo propio del cliente** — canción completa (5:55) a 64kbps (ver DECISIONS.md) | < 3 MB |
 
 **Criterio de consistencia:** osito y elefantito deben compartir línea visual
 (cafés suaves, trazos redondeados, sin contornos negros duros). Registrar la
@@ -322,7 +322,7 @@ baby-shower-juan-manuel/
 ├── assets/
 │   ├── images/                 # svg, og-image.jpg, favicon
 │   ├── lottie/                 # JSON de animaciones Lottie
-│   └── audio/                  # musica.mp3 (archivo del cliente)
+│   └── audio/                  # musica.m4a (archivo del cliente, optimizado)
 ├── docs/
 │   ├── GUIA-FIREBASE.md        # setup Firebase paso a paso
 │   └── GUIA-GITHUB-PAGES.md    # publicación paso a paso
@@ -406,18 +406,18 @@ seguridad la dan las reglas + App Check.
 
 | Fase | Nombre | Tareas | Est. | Estado |
 |---|---|---|---|---|
-| **0** | Setup | 0.1 Estructura de carpetas. 0.2 Firebase + reglas + App Check (manual, usuario). 0.3 Repo GitHub + Pages (manual, usuario). 0.4 `config.js` + `content.js`. 0.5 Recibir/optimizar música (usuario). | 1 h | 🔶 Parcial (pendiente pasos manuales) |
-| **1** | HTML base | 1.1 `index.html` semántico completo (8 secciones, meta OG). 1.2 Cargar fuentes y CSS en orden. 1.3 Prueba: contenido legible sin CSS. | 1.5 h | ⬜ |
-| **2** | CSS base | 2.1 Reset + tokens. 2.2 Layout + contenedor 640px. 2.3 Escala tipográfica móvil. | 1.5 h | ⬜ |
-| **3** | CSS secciones | 3.1 Hero + overlay. 3.2 Tarjetas detalles. 3.3 Countdown. 3.4 Formulario + radio cards. 3.5 Mapa, cierre, botón música. 3.6 Integrar SVG (nubes, luna, hojas) y divisores. | 3 h | ⬜ |
-| **4** | Responsive | 4.1 Tablet ≥768px. 4.2 Desktop ≥1024px (decoración lateral). 4.3 safe-area iOS, 100dvh, viewport 360px. | 1 h | ⬜ |
-| **5** | Animaciones | 5.1 `animations.css` (keyframes). 5.2 `reveal.js` (IO + stagger). 5.3 Salida overlay + desbloqueo audio. 5.4 `prefers-reduced-motion`. 5.5 `lotties.js` (lazy-load lottie-web CDN, pausa fuera de viewport, fallback SVG/PNG, reduced-motion → estático). | 2.5 h | ⬜ |
-| **6** | Countdown | 6.1 `countdown.js` con fecha `-05:00`. 6.2 Pulso al cambiar dígito. 6.3 Estado "¡Hoy es el gran día!". | 45 min | ⬜ |
-| **7** | Música | 7.1 `music.js` (play/pause, volumen 0.5, loop). 7.2 Autoplay tras tap de bienvenida + fallback. 7.3 Estados visuales del botón. | 45 min | ⬜ |
-| **8** | RSVP + Firestore | 8.1 `db.js` (init + saveRsvp). 8.2 `rsvp.js` (validación, honeypot, estados, éxito animado, localStorage). 8.3 Publicar reglas y probar escritura real. 8.4 Probar rechazo de lecturas externas. | 2 h | ⬜ |
-| **9** | Panel padres | 9.1 Mini-guía con capturas: Console → Firestore → `rsvps`. 9.2 Ordenar por fecha y contar asistentes. | 30 min | ⬜ |
-| **10** | Optimización y accesibilidad | 10.1 Lazy loading (mapa, imágenes, lottie). 10.2 Comprimir SVG/OG, peso < 1 MB sin audio. 10.3 Contraste/foco/labels/alt. 10.4 Preview WhatsApp real. | 1.5 h | ⬜ |
-| **11** | QA y publicación | 11.1 Pruebas en iOS + Android reales y desde WhatsApp. 11.2 Checklist final (§13). 11.3 RSVP de prueba end-to-end y borrado. 11.4 Difusión. | 1 h | ⬜ |
+| **0** | Setup | 0.1 Estructura de carpetas. 0.2 Firebase + reglas + App Check (manual, usuario). 0.3 Repo GitHub + Pages (manual, usuario). 0.4 `config.js` + `content.js`. 0.5 Recibir/optimizar música (usuario). | 1 h | ✅ |
+| **1** | HTML base | 1.1 `index.html` semántico completo (8 secciones, meta OG). 1.2 Cargar fuentes y CSS en orden. 1.3 Prueba: contenido legible sin CSS. | 1.5 h | ✅ |
+| **2** | CSS base | 2.1 Reset + tokens. 2.2 Layout + contenedor 640px. 2.3 Escala tipográfica móvil. | 1.5 h | ✅ |
+| **3** | CSS secciones | 3.1 Hero + overlay. 3.2 Tarjetas detalles. 3.3 Countdown. 3.4 Formulario + radio cards. 3.5 Mapa, cierre, botón música. 3.6 Integrar SVG (nubes, luna, hojas) y divisores. | 3 h | ✅ (divisores omitidos → ver DECISIONS.md) |
+| **4** | Responsive | 4.1 Tablet ≥768px. 4.2 Desktop ≥1024px (decoración lateral). 4.3 safe-area iOS, 100svh, viewport 360px. | 1 h | ✅ |
+| **5** | Animaciones | 5.1 `animations.css` (keyframes). 5.2 `reveal.js` (IO + stagger). 5.3 Salida overlay + desbloqueo audio. 5.4 `prefers-reduced-motion`. 5.5 `lotties.js` (lazy-load lottie-web CDN, pausa fuera de viewport, fallback SVG/PNG, reduced-motion → estático). | 2.5 h | ✅ |
+| **6** | Countdown | 6.1 `countdown.js` con fecha `-05:00`. 6.2 Pulso al cambiar dígito. 6.3 Estado "¡Hoy es el gran día!". | 45 min | ✅ |
+| **7** | Música | 7.1 `music.js` (play/pause, volumen 0.5, loop). 7.2 Autoplay tras tap de bienvenida + fallback. 7.3 Estados visuales del botón. | 45 min | ✅ |
+| **8** | RSVP + Firestore | 8.1 `db.js` (init + saveRsvp). 8.2 `rsvp.js` (validación, honeypot, estados, éxito animado, localStorage). 8.3 Publicar reglas y probar escritura real. 8.4 Probar rechazo de lecturas externas. | 2 h | ✅ (8.3/8.4 verificados vía API REST) |
+| **9** | Panel padres | 9.1 Mini-guía con capturas: Console → Firestore → `rsvps`. 9.2 Ordenar por fecha y contar asistentes. | 30 min | ✅ (`docs/PANEL-PADRES.md`) |
+| **10** | Optimización y accesibilidad | 10.1 Lazy loading (mapa, imágenes, lottie). 10.2 Comprimir SVG/OG, peso < 1 MB sin audio. 10.3 Contraste/foco/labels/alt. 10.4 Preview WhatsApp real. | 1.5 h | ✅ (10.4 pendiente: envío real por el usuario → `docs/CHECKLIST-FINAL.md`) |
+| **11** | QA y publicación | 11.1 Pruebas en iOS + Android reales y desde WhatsApp. 11.2 Checklist final (§13). 11.3 RSVP de prueba end-to-end y borrado. 11.4 Difusión. | 1 h | 🟡 (11.2 ✅ → `docs/CHECKLIST-FINAL.md`; 11.1/11.3/11.4 manuales, usuario) |
 
 ---
 
