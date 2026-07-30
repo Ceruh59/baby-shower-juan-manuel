@@ -39,3 +39,8 @@
 | 2026-07-29 | 10 | Música: canción completa (5:55) → AAC 64kbps `.m4a` (2.9 MB) con `afconvert` de macOS; original respaldado fuera del repo | Decisión del usuario (conservar canción completa); ffmpeg no disponible; AAC lo reproducen todos los navegadores móviles; cumple < 3 MB |
 | 2026-07-29 | 10 | Foco inicial en el botón "Ver invitación" (`loader.js`) | El overlay es `role="dialog"`: la navegación por teclado debe empezar dentro de él |
 | 2026-07-29 | 5 | `data-lottie-speed="0.5"` en el elefantito (soporte en `lotties.js`) | Su loop nativo es de 0.6s: demasiado vivo para el tono "loop sutil" del mensaje emotivo |
+| 2026-07-30 | Redesign | Dirección visual: cuento interactivo cinematográfico (capítulos + monograma JM + luna) | El usuario rechazó el look sencillo y las ilustraciones oso/elefante; pide scroll dinámico tipo landing |
+| 2026-07-30 | Redesign | Tipografías: Cormorant Infant + Outfit + Great Vibes | Reemplazan Playfair/Nunito/Dancing Script (rechazadas); Infant evoca libro infantil premium, Outfit es cuerpo moderno |
+| 2026-07-30 | Redesign | Lottie oso/elefante retirados del HTML; `lotties.js` fuera de main | Usuario no quiere esos dibujos; ornamentación SVG/CSS (luna, anillos, monograma) hasta que aporte assets propios |
+| 2026-07-30 | Redesign | Módulo `story.js`: split del nombre + parallax hero + `body.is-entered` | Coreografía de entrada post-overlay y profundidad al scroll sin librerías nuevas |
+| 2026-07-30 | Redesign | Reveals con `data-reveal` (up/left/right/scale/fade) | Variedad cinematográfica al scroll manteniendo solo transform/opacity |

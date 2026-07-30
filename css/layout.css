@@ -1,56 +1,110 @@
 /* ==========================================================================
-   layout.css — Estructura de secciones, contenedor y fondo general
-   Mobile-first (360px de referencia). Breakpoints en responsive.css (Fase 4).
+   layout.css — Estructura de secciones y atmósfera
    ========================================================================== */
 
-/* --------------------------------------------------------------------------
-   1. Fondo general: degradado vertical muy sutil y continuo
-      (celeste pálido arriba → blanco cálido → beige al final)
-   -------------------------------------------------------------------------- */
 body {
-  background: linear-gradient(
-    180deg,
-    var(--bg-hero-tope) 0%,
-    var(--bg-celeste-niebla) 22%,
-    var(--bg-blanco-calido) 55%,
-    var(--bg-beige-suave) 100%
-  );
-  background-attachment: fixed; /* el degradado no "salta" al hacer scroll */
+  background:
+    radial-gradient(ellipse 120% 60% at 50% -10%, rgba(197, 217, 235, 0.9) 0%, transparent 55%),
+    radial-gradient(ellipse 80% 40% at 100% 40%, rgba(226, 201, 138, 0.12) 0%, transparent 50%),
+    radial-gradient(ellipse 70% 35% at 0% 70%, rgba(142, 180, 208, 0.15) 0%, transparent 50%),
+    linear-gradient(
+      180deg,
+      var(--bg-night-mist) 0%,
+      var(--bg-sky-soft) 18%,
+      var(--bg-cream) 48%,
+      var(--bg-paper) 72%,
+      var(--bg-sand) 100%
+    );
+  background-attachment: fixed;
 }
 
-/* --------------------------------------------------------------------------
-   2. Contenedor de contenido: columna de invitación de 640px
-   -------------------------------------------------------------------------- */
+/* Capa atmosférica fija */
+.atmosphere {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.atmosphere__orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(0);
+  opacity: 0.45;
+}
+
+.atmosphere__orb--1 {
+  top: 8%;
+  right: -8%;
+  width: 220px;
+  height: 220px;
+  background: radial-gradient(circle, rgba(243, 230, 196, 0.55), transparent 70%);
+}
+
+.atmosphere__orb--2 {
+  top: 45%;
+  left: -12%;
+  width: 280px;
+  height: 280px;
+  background: radial-gradient(circle, rgba(142, 180, 208, 0.35), transparent 70%);
+}
+
+.atmosphere__orb--3 {
+  bottom: 10%;
+  right: -5%;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(196, 165, 116, 0.22), transparent 70%);
+}
+
+.atmosphere__stars {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1.5px 1.5px at 12% 18%, rgba(255, 255, 255, 0.9), transparent),
+    radial-gradient(1px 1px at 28% 42%, rgba(226, 201, 138, 0.85), transparent),
+    radial-gradient(1.5px 1.5px at 72% 12%, rgba(255, 255, 255, 0.75), transparent),
+    radial-gradient(1px 1px at 88% 35%, rgba(226, 201, 138, 0.7), transparent),
+    radial-gradient(1.2px 1.2px at 45% 8%, rgba(255, 255, 255, 0.8), transparent),
+    radial-gradient(1px 1px at 60% 55%, rgba(255, 255, 255, 0.55), transparent),
+    radial-gradient(1.5px 1.5px at 18% 78%, rgba(226, 201, 138, 0.6), transparent),
+    radial-gradient(1px 1px at 82% 82%, rgba(255, 255, 255, 0.65), transparent);
+  opacity: 0.55;
+}
+
+main {
+  position: relative;
+  z-index: 1;
+}
+
 main > section {
+  position: relative;
   max-width: var(--content-max);
   margin-inline: auto;
-  padding: var(--space-xl) var(--space-md);
+  padding: var(--space-2xl) var(--space-md);
   text-align: center;
 }
 
-/* Separación interna estándar de cada sección */
-main h2 {
-  margin-bottom: var(--space-lg);
+main > section + section {
+  padding-top: var(--space-xl);
 }
 
-/* --------------------------------------------------------------------------
-   3. Hero: ocupa toda la pantalla inicial
-   -------------------------------------------------------------------------- */
+/* Hero fullscreen */
 #hero {
-  position: relative; /* las nubes se posicionan respecto a esta sección */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--space-sm);
-  min-height: 100vh;   /* fallback navegadores antiguos */
-  min-height: 100svh;  /* iOS: altura estable (evita el salto de 100dvh
-                          cuando Safari oculta su barra al hacer scroll) */
+  gap: 0.35rem;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding-top: var(--space-xl);
+  padding-bottom: var(--space-lg);
+  overflow: hidden;
 }
 
-/* --------------------------------------------------------------------------
-   4. Overlay de bienvenida: pantalla completa fija
-   -------------------------------------------------------------------------- */
+/* Overlay bienvenida */
 #welcome {
   position: fixed;
   inset: 0;
@@ -59,61 +113,51 @@ main h2 {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--space-lg);
+  gap: var(--space-md);
   padding: var(--space-md);
   text-align: center;
-  background: linear-gradient(
-    180deg,
-    #C9DDF0 0%,
-    var(--bg-hero-tope) 55%,
-    var(--bg-celeste-niebla) 100%
-  );
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 30%, rgba(243, 230, 196, 0.25), transparent 60%),
+    linear-gradient(165deg, #9BB8D0 0%, #C5D9EB 42%, #E8F0F7 100%);
+  overflow: hidden;
 }
 
-.welcome__sky {
-  position: relative;
-  width: 120px;
-  height: 120px;
-}
-
-.welcome__moon {
-  width: 72px;
-  height: 72px;
-  color: var(--azul-profundo);
-  margin-inline: auto;
-}
-
-/* Las estrellas se generan/animan en Fase 5 */
-.stars {
+.welcome__glow {
   position: absolute;
-  inset: 0;
+  top: 18%;
+  left: 50%;
+  width: 280px;
+  height: 280px;
+  margin-left: -140px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(243, 230, 196, 0.45), transparent 70%);
+  pointer-events: none;
 }
 
-/* --------------------------------------------------------------------------
-   5. Listas y avisos
-   -------------------------------------------------------------------------- */
 .detalles__lista {
   list-style: none;
   display: grid;
   gap: var(--space-md);
+  margin-top: var(--space-lg);
 }
 
 .noscript-note {
+  position: relative;
+  z-index: 2;
   max-width: var(--content-max);
   margin: var(--space-md) auto;
   padding: var(--space-sm) var(--space-md);
-  background: var(--bg-beige-suave);
+  background: var(--bg-sand);
   border-radius: var(--radius-card);
   text-align: center;
   font-size: var(--fs-small);
 }
 
-/* --------------------------------------------------------------------------
-   6. Cierre y footer
-   -------------------------------------------------------------------------- */
 #cierre footer {
   margin-top: var(--space-xl);
   padding-top: var(--space-md);
   font-size: var(--fs-small);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   color: var(--texto-suave);
 }

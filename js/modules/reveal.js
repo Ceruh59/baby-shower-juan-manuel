@@ -1,16 +1,14 @@
 /**
- * reveal.js (Fase 5.2) — Aparición gradual de elementos al hacer scroll.
+ * reveal.js — Aparición cinematográfica al scroll (cuento interactivo).
  *
- * - Marca <html class="js"> para que animations.css active el estado oculto
- *   de .reveal SOLO cuando JS está disponible (sin JS todo se ve).
- * - IntersectionObserver agrega .is-visible una sola vez (once).
- * - Stagger de 150ms entre hermanos .reveal del mismo contenedor (máx 450ms).
- * - Si el usuario prefiere movimiento reducido o no hay IntersectionObserver,
- *   todo se muestra de inmediato.
+ * - Marca <html class="js"> para activar estados ocultos en CSS.
+ * - Variantes vía data-reveal: up | left | right | scale | fade.
+ * - Stagger entre hermanos (máx 480ms).
+ * - prefers-reduced-motion → todo visible de inmediato.
  */
 
-const STAGGER_MS = 150;
-const STAGGER_MAX_MS = 450;
+const STAGGER_MS = 120;
+const STAGGER_MAX_MS = 480;
 
 export function initReveal() {
   const elements = document.querySelectorAll('.reveal');
@@ -24,9 +22,14 @@ export function initReveal() {
     return;
   }
 
-  // Stagger: retraso incremental entre .reveal hermanos
   const countPerParent = new Map();
   elements.forEach((el) => {
+    // El hero se anima con la secuencia is-entered; no lo oculta el IO
+    if (el.closest('#hero')) {
+      el.classList.add('is-visible');
+      return;
+    }
+
     const parent = el.parentElement;
     const index = countPerParent.get(parent) ?? 0;
     el.style.transitionDelay = `${Math.min(index * STAGGER_MS, STAGGER_MAX_MS)}ms`;
@@ -38,11 +41,13 @@ export function initReveal() {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
         entry.target.classList.add('is-visible');
-        observer.unobserve(entry.target); // se anima una sola vez
+        observer.unobserve(entry.target);
       });
     },
-    { threshold: 0.15, rootMargin: '0px 0px -8% 0px' }
+    { threshold: 0.12, rootMargin: '0px 0px -10% 0px' }
   );
 
-  elements.forEach((el) => observer.observe(el));
+  elements.forEach((el) => {
+    if (!el.closest('#hero')) observer.observe(el);
+  });
 }

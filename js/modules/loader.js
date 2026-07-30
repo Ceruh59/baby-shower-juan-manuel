@@ -13,7 +13,7 @@
  *    el estado de su botón.
  */
 
-const EXIT_ANIMATION_MS = 850; // 0.8s de transición + margen
+const EXIT_ANIMATION_MS = 950;
 
 export function initLoader() {
   const overlay = document.getElementById('welcome');

@@ -1,142 +1,108 @@
 /* ==========================================================================
-   animations.css — Todos los @keyframes y clases de animación
-   REGLAS (PLAN.md §5):
-   - Animar SOLO transform y opacity.
-   - Todo loop se desactiva con prefers-reduced-motion (bloque al final).
+   animations.css — Motion del cuento interactivo
+   REGLAS: solo transform + opacity. Respetar prefers-reduced-motion.
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
-   5.1a Deriva de nubes: cruzan la pantalla lentamente (loops largos).
-   Los delays negativos hacen que al cargar ya estén "repartidas".
+   Atmósfera ambient
    -------------------------------------------------------------------------- */
-@keyframes cloud-drift {
-  from { transform: translateX(0); }
-  to   { transform: translateX(calc(100vw + 300px)); }
+@keyframes orb-drift {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50%      { transform: translate3d(12px, -18px, 0) scale(1.06); }
 }
 
-.cloud--1 {
-  left: -140px;
-  animation: cloud-drift 85s linear infinite;
-  animation-delay: -18s;
+@keyframes star-twinkle {
+  0%, 100% { opacity: 0.35; }
+  50%      { opacity: 0.85; }
 }
 
-.cloud--2 {
-  right: auto;
-  left: -100px;
-  animation: cloud-drift 120s linear infinite;
-  animation-delay: -60s;
+@keyframes moon-float {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50%      { transform: translate3d(0, -10px, 0); }
 }
 
-.cloud--3 {
-  right: auto;
-  left: -80px;
-  animation: cloud-drift 70s linear infinite;
-  animation-delay: -42s;
+@keyframes ring-spin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
-/* --------------------------------------------------------------------------
-   5.1b Flotación suave (luna de bienvenida, ilustraciones Lottie)
-   -------------------------------------------------------------------------- */
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-8px); }
+@keyframes spark-pulse {
+  0%, 100% { opacity: 0.35; transform: scale(0.85); }
+  50%      { opacity: 1; transform: scale(1.15); }
 }
 
-.welcome__moon {
-  animation: float 5s ease-in-out infinite;
+@keyframes monogram-breathe {
+  0%, 100% { transform: scale(1); opacity: 0.95; }
+  50%      { transform: scale(1.04); opacity: 1; }
 }
 
-.lottie {
-  animation: float 6s ease-in-out infinite;
-}
-
-#mensaje .lottie {
-  animation-delay: -3s;
-}
-
-/* --------------------------------------------------------------------------
-   5.1c Estrellas: parpadeo conjunto muy sutil
-   -------------------------------------------------------------------------- */
-@keyframes twinkle {
-  0%, 100% { opacity: 0.55; }
-  50%      { opacity: 1; }
-}
-
-.stars {
-  animation: twinkle 4s ease-in-out infinite;
-}
-
-/* --------------------------------------------------------------------------
-   5.1d Hojas del mensaje: vaivén de ±3deg
-   -------------------------------------------------------------------------- */
-@keyframes sway {
-  0%, 100% { transform: rotate(-3deg); }
-  50%      { transform: rotate(3deg); }
-}
-
-#mensaje::before {
-  animation: sway 6s ease-in-out infinite;
-  transform-origin: bottom left;
-}
-
-#mensaje::after {
-  animation: sway 6s ease-in-out infinite;
-  animation-delay: -3s;
-  transform-origin: bottom right;
-}
-
-/* --------------------------------------------------------------------------
-   5.1e Indicador "Desliza ↓": rebote suave
-   -------------------------------------------------------------------------- */
 @keyframes bounce-soft {
   0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(5px); }
+  50%      { transform: translateY(6px); }
 }
 
-.scroll-hint span {
-  display: inline-block;
-  animation: bounce-soft 1.6s ease-in-out infinite;
-}
-
-/* --------------------------------------------------------------------------
-   5.1f Ondas del botón de música (solo cuando suena)
-   -------------------------------------------------------------------------- */
 @keyframes wave {
   0%, 100% { transform: scaleY(0.4); }
   50%      { transform: scaleY(1); }
 }
 
+@keyframes tick {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.1); opacity: 0.7; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes draw-check {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes seal-drop {
+  from { transform: translateX(-50%) translateY(-8px); opacity: 0; }
+  to   { transform: translateX(-50%) translateY(0); opacity: 1; }
+}
+
+/* Ambient loops */
+.atmosphere__orb--1 { animation: orb-drift 14s ease-in-out infinite; }
+.atmosphere__orb--2 { animation: orb-drift 18s ease-in-out infinite reverse; animation-delay: -6s; }
+.atmosphere__orb--3 { animation: orb-drift 16s ease-in-out infinite; animation-delay: -3s; }
+.atmosphere__stars  { animation: star-twinkle 5s ease-in-out infinite; }
+
+.welcome__monogram {
+  animation: monogram-breathe 5.5s ease-in-out infinite;
+}
+
+.welcome__glow {
+  animation: orb-drift 10s ease-in-out infinite;
+}
+
+.hero__moon {
+  animation: moon-float 6s ease-in-out infinite;
+}
+
+.hero__ring--outer {
+  animation: ring-spin 80s linear infinite;
+}
+
+.hero__ring--inner {
+  animation: ring-spin 55s linear infinite reverse;
+}
+
+.hero__spark--1 { animation: spark-pulse 3.2s ease-in-out infinite; }
+.hero__spark--2 { animation: spark-pulse 2.6s ease-in-out infinite 0.8s; }
+.hero__spark--3 { animation: spark-pulse 3.8s ease-in-out infinite 1.4s; }
+
+.scroll-hint__arrow {
+  animation: bounce-soft 1.8s ease-in-out infinite;
+}
+
 #music-btn[aria-pressed='true'] .music-btn__waves span {
   animation: wave 1s ease-in-out infinite;
 }
-
-#music-btn[aria-pressed='true'] .music-btn__waves span:nth-child(2) {
-  animation-delay: 0.15s;
-}
-
-#music-btn[aria-pressed='true'] .music-btn__waves span:nth-child(3) {
-  animation-delay: 0.3s;
-}
+#music-btn[aria-pressed='true'] .music-btn__waves span:nth-child(2) { animation-delay: 0.15s; }
+#music-btn[aria-pressed='true'] .music-btn__waves span:nth-child(3) { animation-delay: 0.3s; }
 
 /* --------------------------------------------------------------------------
-   5.2 Reveal al hacer scroll.
-   GUARDIA: el estado oculto solo aplica si JS está activo (<html class="js">,
-   lo agrega reveal.js). Sin JS, el contenido siempre es visible.
-   -------------------------------------------------------------------------- */
-.js .reveal {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.8s var(--ease-out-soft),
-              transform 0.8s var(--ease-out-soft);
-}
-
-.js .reveal.is-visible {
-  opacity: 1;
-  transform: none;
-}
-
-/* --------------------------------------------------------------------------
-   5.3 Salida del overlay de bienvenida + bloqueo de scroll mientras está
+   Entrada del overlay
    -------------------------------------------------------------------------- */
 body.is-locked {
   overflow: hidden;
@@ -144,44 +110,125 @@ body.is-locked {
 
 #welcome.is-leaving {
   opacity: 0;
-  transform: scale(1.04);
-  transition: opacity 0.8s var(--ease-out-soft),
-              transform 0.8s var(--ease-out-soft);
+  transform: scale(1.06);
+  transition: opacity 0.9s var(--ease-out-expo),
+              transform 0.9s var(--ease-out-expo);
   pointer-events: none;
 }
 
 /* --------------------------------------------------------------------------
-   5.7 Pulso de dígitos del countdown (Fase 6 agrega/quita .tick)
+   Reveal on scroll — variantes cinematográficas
    -------------------------------------------------------------------------- */
-@keyframes tick {
-  50% { transform: scale(1.08); opacity: 0.6; }
+.js .reveal {
+  opacity: 0;
+  transition: opacity 1s var(--ease-out-expo),
+              transform 1s var(--ease-out-expo);
+  will-change: opacity, transform;
 }
 
-.countdown__number.tick {
-  animation: tick 0.3s var(--ease-out-soft);
+.js .reveal[data-reveal='up'],
+.js .reveal:not([data-reveal]) {
+  transform: translate3d(0, 36px, 0);
+}
+
+.js .reveal[data-reveal='left'] {
+  transform: translate3d(-40px, 16px, 0);
+}
+
+.js .reveal[data-reveal='right'] {
+  transform: translate3d(40px, 16px, 0);
+}
+
+.js .reveal[data-reveal='scale'] {
+  transform: scale(0.88) translate3d(0, 20px, 0);
+}
+
+.js .reveal[data-reveal='fade'] {
+  transform: translate3d(0, 12px, 0);
+}
+
+.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Carta: sello cae al revelarse */
+.js .letter.is-visible .letter__seal {
+  animation: seal-drop 0.7s var(--ease-out-expo) 0.15s both;
 }
 
 /* --------------------------------------------------------------------------
-   5.8 Check del RSVP que "se dibuja" (Fase 8 agrega .is-visible)
+   Hero name — split letters (post-welcome)
    -------------------------------------------------------------------------- */
+.js .hero__name-line .char {
+  opacity: 0;
+  transform: translate3d(0, 0.55em, 0) rotate(4deg);
+  transition: opacity 0.7s var(--ease-out-expo),
+              transform 0.7s var(--ease-out-expo);
+}
+
+.js body.is-entered .hero__name-line .char {
+  opacity: 1;
+  transform: none;
+}
+
+/* Hero secondary elements cascade after enter */
+.js #hero .hero__chapter,
+.js #hero .hero__kicker,
+.js #hero .hero__divider,
+.js #hero .hero__fecha,
+.js #hero .hero__hora,
+.js #hero .scroll-hint {
+  opacity: 0;
+  transform: translate3d(0, 18px, 0);
+  transition: opacity 0.8s var(--ease-out-expo),
+              transform 0.8s var(--ease-out-expo);
+}
+
+.js body.is-entered #hero .hero__chapter,
+.js body.is-entered #hero .hero__kicker,
+.js body.is-entered #hero .hero__divider,
+.js body.is-entered #hero .hero__fecha,
+.js body.is-entered #hero .hero__hora,
+.js body.is-entered #hero .scroll-hint {
+  opacity: 1;
+  transform: none;
+}
+
+.js body.is-entered #hero .hero__chapter { transition-delay: 0.05s; }
+.js body.is-entered #hero .hero__kicker  { transition-delay: 0.15s; }
+.js body.is-entered #hero .hero__divider { transition-delay: 0.55s; }
+.js body.is-entered #hero .hero__fecha   { transition-delay: 0.7s; }
+.js body.is-entered #hero .hero__hora    { transition-delay: 0.85s; }
+.js body.is-entered #hero .scroll-hint   { transition-delay: 1.05s; }
+
+/* Nombre: delay por letra se setea en JS; base delay */
+.js body.is-entered .hero__name-line .char {
+  transition-delay: calc(0.28s + var(--i, 0) * 0.045s);
+}
+
+/* --------------------------------------------------------------------------
+   Countdown tick + RSVP check
+   -------------------------------------------------------------------------- */
+.countdown__number.tick {
+  animation: tick 0.35s var(--ease-out-soft);
+}
+
 .rsvp-success__check polyline {
   stroke-dasharray: 24;
   stroke-dashoffset: 24;
 }
 
-@keyframes draw-check {
-  to { stroke-dashoffset: 0; }
+.rsvp-success.is-visible .rsvp-success__check polyline {
+  animation: draw-check 0.65s var(--ease-out-soft) 0.15s forwards;
 }
 
-.rsvp-success.is-visible .rsvp-success__check polyline {
-  animation: draw-check 0.6s var(--ease-out-soft) 0.15s forwards;
+.rsvp-success.is-visible .rsvp-success__check {
+  animation: monogram-breathe 0.8s var(--ease-spring) both;
 }
 
 /* --------------------------------------------------------------------------
-   5.4 RESPETO A prefers-reduced-motion:
-   - Sin loops ni transiciones.
-   - Los .reveal son siempre visibles (reveal.js también los muestra directo).
-   - Lottie NO se carga (lotties.js muestra imagen estática o el halo).
+   prefers-reduced-motion
    -------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -191,7 +238,14 @@ body.is-locked {
     transition: none !important;
   }
 
-  .js .reveal {
+  .js .reveal,
+  .js .hero__name-line .char,
+  .js #hero .hero__chapter,
+  .js #hero .hero__kicker,
+  .js #hero .hero__divider,
+  .js #hero .hero__fecha,
+  .js #hero .hero__hora,
+  .js #hero .scroll-hint {
     opacity: 1 !important;
     transform: none !important;
   }
