@@ -95,8 +95,8 @@
 }
 
 .floater--right {
-  right: -10%;
-  top: 50%;
+  right: -8%;
+  top: 58%;
   width: min(60vw, 290px);
 }
 
@@ -187,9 +187,10 @@ main > section {
 }
 
 .welcome__peek {
-  width: min(46vw, 160px);
+  width: min(72vw, 300px);
   height: auto;
-  filter: drop-shadow(0 12px 20px rgba(42, 61, 82, 0.2));
+  margin-top: -0.25rem;
+  filter: drop-shadow(0 14px 24px rgba(42, 61, 82, 0.22));
 }
 
 /* Cloud intro (hold + parting) */
