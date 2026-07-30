@@ -168,20 +168,20 @@ body.is-locked { overflow: hidden; }
 }
 
 .js body.is-entered #hero .hero__word:nth-child(1) {
-  animation: hero-fade-up 0.28s var(--ease-out-expo) 0.04s both;
+  animation: hero-fade-up 0.28s var(--ease-out-expo) 0.05s both;
 }
 
 .js body.is-entered #hero .hero__word:nth-child(2) {
-  animation: hero-fade-up 0.28s var(--ease-out-expo) 0.1s both;
+  animation: hero-fade-up 0.28s var(--ease-out-expo) 0.12s both;
 }
 
 .js body.is-entered #hero .hero__elephant {
-  animation: hero-fade-up 0.32s var(--ease-out-expo) 0.14s both,
-             float-soft 5.5s ease-in-out 0.5s infinite;
+  animation: hero-fade-up 0.32s var(--ease-out-expo) 0.18s both,
+             float-soft 5.5s ease-in-out 0.55s infinite;
 }
 
 .js body.is-entered #hero .scroll-hint {
-  animation: hero-fade-up 0.28s var(--ease-out-expo) 0.22s both;
+  animation: hero-fade-up 0.28s var(--ease-out-expo) 0.28s both;
 }
 
 .countdown__number.tick {

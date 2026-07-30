@@ -32,13 +32,13 @@
   }
 
   .floater--left {
-    width: 300px;
-    left: -2%;
+    width: min(42vw, 320px);
+    left: -1%;
   }
 
   .floater--right {
-    width: 290px;
-    right: -2%;
+    width: min(40vw, 300px);
+    right: -1%;
   }
 
   .cloud-divider img {
