@@ -76,7 +76,7 @@
 
 .floater {
   position: absolute;
-  width: min(36vw, 160px);
+  width: min(48vw, 220px);
   height: auto;
   filter: drop-shadow(0 18px 26px rgba(42, 61, 82, 0.32));
   will-change: transform, opacity;
@@ -90,14 +90,14 @@
 }
 
 .floater--left {
-  left: -4%;
+  left: -6%;
   top: 62%;
 }
 
 .floater--right {
-  right: -4%;
+  right: -6%;
   top: 52%;
-  width: min(34vw, 150px);
+  width: min(46vw, 210px);
 }
 
 main {

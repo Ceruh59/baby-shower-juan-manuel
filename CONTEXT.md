@@ -24,8 +24,8 @@ monograma JM, luna/anillos; sin ilustraciones de animales por defecto).
 - Paleta (tokens en css/base.css): niebla #C5D9EB / cielo #DCEAF4 / paper #F7F4EF
   / cream #FBF8F3 / sand #EFE6D8 · ink #2F4256 · azul #3F5F7A / #8EB4D0 ·
   champagne #C4A574 / #E2C98A · texto suave #6A7D91.
-- Fuentes Google: Cormorant Infant (títulos), Outfit (cuerpo),
-  Great Vibes (solo firma). font-display: swap.
+- Fuentes Google: Outfit (títulos + cuerpo), Great Vibes (solo firma).
+  font-display: swap.
 - Estilo: cuento premium, cinematográfico al scroll, aireado. Nada infantil exagerado.
 - Contenido max-width 640px centrado.
 - Módulos motion: `reveal.js` (data-reveal), `story.js` (split nombre + parallax).

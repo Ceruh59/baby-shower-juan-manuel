@@ -32,7 +32,6 @@
   to   { opacity: 1; transform: none; }
 }
 
-/* Cloud parting — Simpsons-style */
 @keyframes cloud-out-tl {
   from { transform: translate3d(0, 0, 0) scale(1.05); opacity: 1; }
   to   { transform: translate3d(-110vw, -40vh, 0) scale(1.2); opacity: 0.85; }
@@ -60,6 +59,11 @@
   100% { transform: translate3d(var(--drift, 20px), -110vh, 0) rotate(6deg); opacity: 0; }
 }
 
+@keyframes hero-fade-up {
+  from { opacity: 0; transform: translate3d(0, 14px, 0); }
+  to   { opacity: 1; transform: none; }
+}
+
 .scroll-hint__arrow {
   display: inline-block;
   animation: bounce-soft 1.8s ease-in-out infinite;
@@ -78,26 +82,24 @@
   animation: float-soft 4.5s ease-in-out infinite;
 }
 
-/* Cloud intro: quietas al aparecer; salen solo con .is-leaving */
 .cloud-intro.is-visible .cloud-intro__cloud {
   opacity: 1;
   transform: scale(1.08);
 }
 
 .cloud-intro.is-leaving .cloud-intro__cloud--1 {
-  animation: cloud-out-tl 2.8s var(--ease-out-expo) forwards;
+  animation: cloud-out-tl 2.6s var(--ease-out-expo) forwards;
 }
 .cloud-intro.is-leaving .cloud-intro__cloud--2 {
-  animation: cloud-out-tr 2.8s var(--ease-out-expo) 0.12s forwards;
+  animation: cloud-out-tr 2.6s var(--ease-out-expo) 0.1s forwards;
 }
 .cloud-intro.is-leaving .cloud-intro__cloud--3 {
-  animation: cloud-out-bl 2.8s var(--ease-out-expo) 0.18s forwards;
+  animation: cloud-out-bl 2.6s var(--ease-out-expo) 0.15s forwards;
 }
 .cloud-intro.is-leaving .cloud-intro__cloud--4 {
-  animation: cloud-out-br 2.8s var(--ease-out-expo) 0.08s forwards;
+  animation: cloud-out-br 2.6s var(--ease-out-expo) 0.06s forwards;
 }
 
-/* Balloons rising */
 .balloon {
   animation: balloon-rise var(--dur, 14s) linear infinite;
   animation-delay: var(--delay, 0s);
@@ -109,28 +111,27 @@
 #music-btn[aria-pressed='true'] .music-btn__waves span:nth-child(2) { animation-delay: 0.15s; }
 #music-btn[aria-pressed='true'] .music-btn__waves span:nth-child(3) { animation-delay: 0.3s; }
 
-/* Overlay exit */
 body.is-locked { overflow: hidden; }
 
 #welcome.is-leaving {
   opacity: 0;
   transform: scale(1.04);
-  transition: opacity 0.7s var(--ease-out-expo),
-              transform 0.7s var(--ease-out-expo);
+  transition: opacity 0.55s var(--ease-out-expo),
+              transform 0.55s var(--ease-out-expo);
   pointer-events: none;
 }
 
-/* Reveals */
+/* Reveals al scroll */
 .js .reveal {
   opacity: 0;
-  transition: opacity 0.95s var(--ease-out-expo),
-              transform 0.95s var(--ease-out-expo);
+  transition: opacity 0.85s var(--ease-out-expo),
+              transform 0.85s var(--ease-out-expo);
   will-change: opacity, transform;
 }
 
 .js .reveal[data-reveal='up'],
 .js .reveal:not([data-reveal]) {
-  transform: translate3d(0, 40px, 0);
+  transform: translate3d(0, 36px, 0);
 }
 
 .js .reveal[data-reveal='left'] {
@@ -142,11 +143,11 @@ body.is-locked { overflow: hidden; }
 }
 
 .js .reveal[data-reveal='scale'] {
-  transform: scale(0.88) translate3d(0, 24px, 0);
+  transform: scale(0.9) translate3d(0, 20px, 0);
 }
 
 .js .reveal[data-reveal='fade'] {
-  transform: translate3d(0, 14px, 0);
+  transform: translate3d(0, 12px, 0);
 }
 
 .js .reveal.is-visible {
@@ -154,49 +155,31 @@ body.is-locked { overflow: hidden; }
   transform: none;
 }
 
-/* Hero name split */
+/* Hero: entrada inmediata y rápida al abrir nubes */
+.js #hero .hero__kicker,
+.js #hero .hero__elephant,
+.js #hero .scroll-hint,
 .js .hero__name-line .char {
   opacity: 0;
-  transform: translate3d(0, 0.45em, 0) rotate(4deg);
-  transition: opacity 0.42s var(--ease-out-expo),
-              transform 0.42s var(--ease-out-expo);
+}
+
+.js body.is-entered #hero .hero__kicker {
+  animation: hero-fade-up 0.35s var(--ease-out-expo) both;
 }
 
 .js body.is-entered .hero__name-line .char {
-  opacity: 1;
-  transform: none;
-  transition-delay: calc(0.04s + var(--i, 0) * 0.024s);
+  animation: hero-fade-up 0.32s var(--ease-out-expo) both;
+  animation-delay: calc(0.04s + var(--i, 0) * 0.018s);
 }
 
-/* Hero cascade after enter (más rápido) */
-.js #hero .hero__kicker,
-.js #hero .hero__divider,
-.js #hero .hero__fecha,
-.js #hero .hero__hora,
-.js #hero .hero__elephant,
-.js #hero .scroll-hint {
-  opacity: 0;
-  transform: translate3d(0, 18px, 0);
-  transition: opacity 0.5s var(--ease-out-expo),
-              transform 0.5s var(--ease-out-expo);
+.js body.is-entered #hero .hero__elephant {
+  animation: hero-fade-up 0.4s var(--ease-out-expo) 0.18s both,
+             float-soft 5.5s ease-in-out 0.6s infinite;
 }
 
-.js body.is-entered #hero .hero__kicker,
-.js body.is-entered #hero .hero__divider,
-.js body.is-entered #hero .hero__fecha,
-.js body.is-entered #hero .hero__hora,
-.js body.is-entered #hero .hero__elephant,
 .js body.is-entered #hero .scroll-hint {
-  opacity: 1;
-  transform: none;
+  animation: hero-fade-up 0.35s var(--ease-out-expo) 0.28s both;
 }
-
-.js body.is-entered #hero .hero__kicker   { transition-delay: 0s; }
-.js body.is-entered #hero .hero__divider { transition-delay: 0.22s; }
-.js body.is-entered #hero .hero__fecha   { transition-delay: 0.3s; }
-.js body.is-entered #hero .hero__hora    { transition-delay: 0.38s; }
-.js body.is-entered #hero .hero__elephant{ transition-delay: 0.45s; }
-.js body.is-entered #hero .scroll-hint   { transition-delay: 0.58s; }
 
 .countdown__number.tick {
   animation: tick 0.35s var(--ease-out-soft);
@@ -220,18 +203,11 @@ body.is-locked { overflow: hidden; }
   }
 
   .js .reveal,
-  .js .hero__name-line .char,
   .js #hero .hero__kicker,
-  .js #hero .hero__divider,
-  .js #hero .hero__fecha,
-  .js #hero .hero__hora,
   .js #hero .hero__elephant,
-  .js #hero .scroll-hint {
+  .js #hero .scroll-hint,
+  .js .hero__name-line .char {
     opacity: 1 !important;
     transform: none !important;
-  }
-
-  .floater {
-    opacity: 0.85;
   }
 }

@@ -19,7 +19,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Infant:ital,wght@0,500;0,600;0,700;1,500;1,600;1,700&family=Outfit:wght@300;400;500;600;700&family=Great+Vibes&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Great+Vibes&display=swap">
 
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/layout.css">
@@ -88,21 +88,13 @@
 
     <!-- HERO -->
     <section id="hero" aria-labelledby="hero-nombre">
-      <p class="hero__kicker reveal" data-reveal="up">Te invitamos al Baby Shower de</p>
+      <p class="hero__kicker">Te invitamos al Baby Shower de</p>
       <h1 id="hero-nombre" class="hero__nombre" aria-label="Juan Manuel">
         <span class="hero__name-line" data-split>Juan Manuel</span>
       </h1>
-      <div class="hero__divider reveal" data-reveal="scale" aria-hidden="true">
-        <span></span>
-        <i></i>
-        <span></span>
-      </div>
-      <p class="hero__fecha reveal" data-reveal="up">Sábado 15 de agosto de 2026</p>
-      <p class="hero__hora reveal" data-reveal="up">4:00 p.m. · Pasto, Nariño</p>
 
       <img
-        class="hero__elephant reveal"
-        data-reveal="scale"
+        class="hero__elephant"
         src="assets/images/elefante5.webp"
         alt="Elefantito con globos azules"
         width="900"
@@ -125,7 +117,7 @@
       </article>
     </section>
 
-    <!-- DETALLES -->
+    <!-- DETALLES + MAPA -->
     <section id="detalles" aria-labelledby="detalles-titulo">
       <h2 id="detalles-titulo" class="section-title reveal" data-reveal="up">Detalles del evento</h2>
 
@@ -143,6 +135,16 @@
           <p>Salón Social Balcones del Este<br>Cra 2 #22B-123, Pasto, Nariño</p>
         </li>
       </ul>
+
+      <div class="mapa panel reveal" data-reveal="up">
+        <iframe
+          src="https://maps.google.com/maps?q=Sal%C3%B3n%20Social%20Balcones%20del%20Este%2C%20Cra%202%20%2322B-123%2C%20Pasto%2C%20Nari%C3%B1o%2C%20Colombia&t=&z=16&ie=UTF8&iwloc=&output=embed"
+          title="Mapa: Salón Social Balcones del Este, Cra 2 #22B-123, Pasto"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          allowfullscreen></iframe>
+      </div>
+      <a class="btn btn--primary reveal" data-reveal="up" href="https://www.google.com/maps/search/?api=1&amp;query=Sal%C3%B3n+Social+Balcones+del+Este%2C+Cra+2+%2322B-123%2C+Pasto%2C+Nari%C3%B1o%2C+Colombia" target="_blank" rel="noopener">Cómo llegar</a>
     </section>
 
     <!-- CUENTA REGRESIVA -->
@@ -172,24 +174,6 @@
       </div>
       <p class="countdown__after reveal" data-reveal="up">para el evento</p>
       <p class="countdown__done" data-countdown-done hidden>¡Hoy es el gran día!</p>
-    </section>
-
-    <!-- UBICACIÓN -->
-    <section id="ubicacion" aria-labelledby="ubicacion-titulo">
-      <h2 id="ubicacion-titulo" class="section-title reveal" data-reveal="up">¿Dónde te esperamos?</h2>
-      <p class="ubicacion__direccion panel reveal" data-reveal="up">
-        <strong>Salón Social Balcones del Este</strong><br>
-        Cra 2 #22B-123, Pasto, Nariño
-      </p>
-      <div class="mapa panel reveal" data-reveal="up">
-        <iframe
-          src="https://maps.google.com/maps?q=Sal%C3%B3n%20Social%20Balcones%20del%20Este%2C%20Cra%202%20%2322B-123%2C%20Pasto%2C%20Nari%C3%B1o%2C%20Colombia&t=&z=16&ie=UTF8&iwloc=&output=embed"
-          title="Mapa: Salón Social Balcones del Este, Cra 2 #22B-123, Pasto"
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-          allowfullscreen></iframe>
-      </div>
-      <a class="btn btn--primary reveal" data-reveal="up" href="https://www.google.com/maps/search/?api=1&amp;query=Sal%C3%B3n+Social+Balcones+del+Este%2C+Cra+2+%2322B-123%2C+Pasto%2C+Nari%C3%B1o%2C+Colombia" target="_blank" rel="noopener">Cómo llegar</a>
     </section>
 
     <!-- RSVP -->

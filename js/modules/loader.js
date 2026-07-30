@@ -1,10 +1,12 @@
 /**
- * loader.js — Bienvenida + intro de nubes (hold + salida lenta) + audio.
+ * loader.js — Bienvenida + intro de nubes + audio.
+ * El texto del hero entra apenas las nubes empiezan a abrirse.
  */
 
-const WELCOME_FADE_MS = 650;
-const CLOUD_HOLD_MS = 1800;
-const CLOUD_EXIT_MS = 2800;
+const WELCOME_FADE_MS = 550;
+const CLOUD_HOLD_MS = 1600;
+const CLOUD_EXIT_MS = 2600;
+const CONTENT_REVEAL_MS = 350; // tras empezar a abrir nubes
 
 function unlockAudio() {
   const audio = document.getElementById('bg-music');
@@ -14,10 +16,17 @@ function unlockAudio() {
   if (playAttempt) playAttempt.catch(() => {});
 }
 
+function revealContent() {
+  document.body.classList.remove('is-locked');
+  document.body.classList.add('is-entered');
+  document.dispatchEvent(new CustomEvent('invitation:entered'));
+}
+
 function playCloudIntro() {
   return new Promise((resolve) => {
     const intro = document.getElementById('cloud-intro');
     if (!intro) {
+      revealContent();
       resolve();
       return;
     }
@@ -31,16 +40,18 @@ function playCloudIntro() {
       intro.hidden = true;
       intro.classList.remove('is-visible');
       intro.setAttribute('aria-hidden', 'true');
+      revealContent();
       resolve();
       return;
     }
 
-    // 1) Nubes cubren la pantalla un momento
     window.setTimeout(() => {
       void intro.offsetWidth;
       intro.classList.add('is-leaving');
 
-      // 2) Luego se abren despacio
+      // Texto entra casi al abrir las nubes (no espera a que terminen)
+      window.setTimeout(revealContent, CONTENT_REVEAL_MS);
+
       window.setTimeout(() => {
         intro.classList.remove('is-visible', 'is-leaving');
         intro.hidden = true;
@@ -69,10 +80,6 @@ export function initLoader() {
       overlay.remove();
 
       await playCloudIntro();
-
-      document.body.classList.remove('is-locked');
-      document.body.classList.add('is-entered');
-      document.dispatchEvent(new CustomEvent('invitation:entered'));
     },
     { once: true }
   );

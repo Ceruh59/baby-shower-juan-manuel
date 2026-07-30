@@ -66,9 +66,8 @@ export const TEXTS = {
     eventDayMessage: '¡Hoy es el gran día!',
   },
 
-  // 5. Ubicación
+  // 5. Ubicación (integrada en detalles)
   location: {
-    title: '¿Dónde te esperamos?',
     mapsButton: 'Cómo llegar',
   },
 
