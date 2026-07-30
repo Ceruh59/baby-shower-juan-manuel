@@ -1,5 +1,5 @@
 /**
- * story.js — Split del nombre + elefantes anclados a secciones que vuelan al scroll.
+ * story.js — Elefantes anclados a secciones que vuelan al scroll.
  */
 
 function forceStartAtTop() {
@@ -7,25 +7,6 @@ function forceStartAtTop() {
     history.scrollRestoration = 'manual';
   }
   window.scrollTo(0, 0);
-}
-
-function splitHeroName() {
-  const target = document.querySelector('[data-split]');
-  if (!target || target.dataset.splitDone === '1') return;
-
-  const text = target.textContent ?? '';
-  target.textContent = '';
-  target.setAttribute('aria-hidden', 'true');
-
-  [...text].forEach((char, index) => {
-    const span = document.createElement('span');
-    span.className = char === ' ' ? 'char is-space' : 'char';
-    span.textContent = char === ' ' ? '\u00A0' : char;
-    span.style.setProperty('--i', String(index));
-    target.appendChild(span);
-  });
-
-  target.dataset.splitDone = '1';
 }
 
 /**
@@ -55,9 +36,7 @@ function initFlyingElephants() {
 
     items.forEach(({ el, anchor, fly }) => {
       const rect = anchor.getBoundingClientRect();
-      // Aparece cuando el final del ancla cruza ~55% de la pantalla
       const releaseY = rect.bottom - viewH * 0.55;
-      // Cuánto se ha scrolleado desde el momento de aparición
       const travel = -releaseY;
 
       if (travel <= 0) {
@@ -70,7 +49,6 @@ function initFlyingElephants() {
       el.classList.add('is-flying');
       const rise = travel * fly;
       const sway = Math.sin(travel * 0.012) * 8;
-      // Tope suave para que no se vayan demasiado lejos de golpe
       const y = Math.min(rise, viewH * 1.6);
 
       if (prefersReduced) {
@@ -100,7 +78,6 @@ function initFlyingElephants() {
 export function initStory() {
   document.documentElement.classList.add('js');
   forceStartAtTop();
-  splitHeroName();
   initFlyingElephants();
 
   if (!document.getElementById('welcome')) {

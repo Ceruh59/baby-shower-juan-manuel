@@ -60,7 +60,7 @@
 }
 
 @keyframes hero-fade-up {
-  from { opacity: 0; transform: translate3d(0, 14px, 0); }
+  from { opacity: 0; transform: translate3d(0, 12px, 0); }
   to   { opacity: 1; transform: none; }
 }
 
@@ -88,16 +88,16 @@
 }
 
 .cloud-intro.is-leaving .cloud-intro__cloud--1 {
-  animation: cloud-out-tl 2.6s var(--ease-out-expo) forwards;
+  animation: cloud-out-tl 2.4s var(--ease-out-expo) forwards;
 }
 .cloud-intro.is-leaving .cloud-intro__cloud--2 {
-  animation: cloud-out-tr 2.6s var(--ease-out-expo) 0.1s forwards;
+  animation: cloud-out-tr 2.4s var(--ease-out-expo) 0.08s forwards;
 }
 .cloud-intro.is-leaving .cloud-intro__cloud--3 {
-  animation: cloud-out-bl 2.6s var(--ease-out-expo) 0.15s forwards;
+  animation: cloud-out-bl 2.4s var(--ease-out-expo) 0.12s forwards;
 }
 .cloud-intro.is-leaving .cloud-intro__cloud--4 {
-  animation: cloud-out-br 2.6s var(--ease-out-expo) 0.06s forwards;
+  animation: cloud-out-br 2.4s var(--ease-out-expo) 0.05s forwards;
 }
 
 .balloon {
@@ -116,8 +116,8 @@ body.is-locked { overflow: hidden; }
 #welcome.is-leaving {
   opacity: 0;
   transform: scale(1.04);
-  transition: opacity 0.55s var(--ease-out-expo),
-              transform 0.55s var(--ease-out-expo);
+  transition: opacity 0.45s var(--ease-out-expo),
+              transform 0.45s var(--ease-out-expo);
   pointer-events: none;
 }
 
@@ -155,30 +155,33 @@ body.is-locked { overflow: hidden; }
   transform: none;
 }
 
-/* Hero: entrada inmediata y rápida al abrir nubes */
+/* Hero: entra al mismo tiempo que se abren las nubes */
 .js #hero .hero__kicker,
+.js #hero .hero__word,
 .js #hero .hero__elephant,
-.js #hero .scroll-hint,
-.js .hero__name-line .char {
+.js #hero .scroll-hint {
   opacity: 0;
 }
 
 .js body.is-entered #hero .hero__kicker {
-  animation: hero-fade-up 0.35s var(--ease-out-expo) both;
+  animation: hero-fade-up 0.28s var(--ease-out-expo) both;
 }
 
-.js body.is-entered .hero__name-line .char {
-  animation: hero-fade-up 0.32s var(--ease-out-expo) both;
-  animation-delay: calc(0.04s + var(--i, 0) * 0.018s);
+.js body.is-entered #hero .hero__word:nth-child(1) {
+  animation: hero-fade-up 0.28s var(--ease-out-expo) 0.04s both;
+}
+
+.js body.is-entered #hero .hero__word:nth-child(2) {
+  animation: hero-fade-up 0.28s var(--ease-out-expo) 0.1s both;
 }
 
 .js body.is-entered #hero .hero__elephant {
-  animation: hero-fade-up 0.4s var(--ease-out-expo) 0.18s both,
-             float-soft 5.5s ease-in-out 0.6s infinite;
+  animation: hero-fade-up 0.32s var(--ease-out-expo) 0.14s both,
+             float-soft 5.5s ease-in-out 0.5s infinite;
 }
 
 .js body.is-entered #hero .scroll-hint {
-  animation: hero-fade-up 0.35s var(--ease-out-expo) 0.28s both;
+  animation: hero-fade-up 0.28s var(--ease-out-expo) 0.22s both;
 }
 
 .countdown__number.tick {
@@ -204,9 +207,9 @@ body.is-locked { overflow: hidden; }
 
   .js .reveal,
   .js #hero .hero__kicker,
+  .js #hero .hero__word,
   .js #hero .hero__elephant,
-  .js #hero .scroll-hint,
-  .js .hero__name-line .char {
+  .js #hero .scroll-hint {
     opacity: 1 !important;
     transform: none !important;
   }

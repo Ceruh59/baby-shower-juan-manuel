@@ -32,24 +32,32 @@
   }
 
   .floater--left {
-    width: 240px;
-    left: 0;
+    width: 300px;
+    left: -2%;
   }
 
   .floater--right {
-    width: 230px;
-    right: 0;
+    width: 290px;
+    right: -2%;
   }
+
+  .cloud-divider img {
+    width: min(42vw, 300px);
+  }
+
+  .cloud-divider--left img { left: -4%; }
+  .cloud-divider--right img { right: -4%; }
 
   .hero__elephant { width: min(62vw, 440px); }
   .cierre__elephant { width: min(52vw, 340px); }
 }
 
 @media (min-width: 1024px) {
-  .floater--left { left: max(0%, calc(50% - 520px)); }
-  .floater--right { right: max(0%, calc(50% - 520px)); }
+  .floater--left { left: max(-2%, calc(50% - 560px)); }
+  .floater--right { right: max(-2%, calc(50% - 560px)); }
 }
 
 @media (max-width: 380px) {
-  .floater { width: min(44vw, 160px); }
+  .floater { width: min(58vw, 210px); }
+  .cloud-divider img { width: min(52vw, 200px); }
 }

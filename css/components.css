@@ -93,24 +93,25 @@
 }
 
 .hero__nombre {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   font-size: var(--fs-hero-name);
   font-weight: 800;
-  letter-spacing: -0.035em;
-  line-height: 0.92;
+  letter-spacing: -0.04em;
+  line-height: 0.88;
   color: var(--ink);
   text-shadow:
     0 2px 0 rgba(255, 255, 255, 0.55),
     0 12px 30px rgba(42, 61, 82, 0.2);
-  margin: 0.35rem 0 0.15rem;
+  margin: 0.25rem 0 0.1rem;
   filter: drop-shadow(0 10px 18px rgba(42, 61, 82, 0.14));
 }
 
-.hero__name-line { display: inline-block; }
-.hero__name-line .char {
-  display: inline-block;
-  will-change: transform, opacity;
+.hero__word {
+  display: block;
+  line-height: 0.88;
 }
-.hero__name-line .char.is-space { width: 0.22em; }
 
 .hero__elephant {
   width: min(86vw, 400px);
@@ -475,20 +476,22 @@ fieldset.field { border: none; }
 }
 
 .cierre__mensaje {
-  font-family: var(--font-body);
-  font-weight: 800;
-  font-size: clamp(2rem, 7vw, 2.6rem);
+  font-family: var(--font-script);
+  font-weight: 400;
+  font-size: clamp(2.6rem, 10vw, 3.6rem);
   line-height: 1.15;
-  letter-spacing: -0.03em;
+  letter-spacing: 0.01em;
   margin-inline: auto;
-  color: var(--ink);
+  color: var(--azul-profundo);
 }
 
 .cierre__firma {
-  font-family: var(--font-script);
-  font-size: clamp(2rem, 6vw, 2.6rem);
-  color: var(--champagne);
-  margin-top: var(--space-sm);
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+  margin-top: 0.65rem;
 }
 
 /* Música */

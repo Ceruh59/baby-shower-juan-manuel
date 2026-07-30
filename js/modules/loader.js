@@ -1,12 +1,11 @@
 /**
  * loader.js — Bienvenida + intro de nubes + audio.
- * El texto del hero entra apenas las nubes empiezan a abrirse.
+ * El hero entra en el mismo instante en que las nubes empiezan a abrirse.
  */
 
-const WELCOME_FADE_MS = 550;
-const CLOUD_HOLD_MS = 1600;
-const CLOUD_EXIT_MS = 2600;
-const CONTENT_REVEAL_MS = 350; // tras empezar a abrir nubes
+const WELCOME_FADE_MS = 450;
+const CLOUD_HOLD_MS = 1400;
+const CLOUD_EXIT_MS = 2400;
 
 function unlockAudio() {
   const audio = document.getElementById('bg-music');
@@ -47,10 +46,9 @@ function playCloudIntro() {
 
     window.setTimeout(() => {
       void intro.offsetWidth;
+      // Texto y nubes al mismo tiempo
       intro.classList.add('is-leaving');
-
-      // Texto entra casi al abrir las nubes (no espera a que terminen)
-      window.setTimeout(revealContent, CONTENT_REVEAL_MS);
+      revealContent();
 
       window.setTimeout(() => {
         intro.classList.remove('is-visible', 'is-leaving');

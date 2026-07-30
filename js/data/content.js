@@ -30,7 +30,7 @@ export const EVENT = {
 export const TEXTS = {
   // 0. Bienvenida (overlay)
   welcome: {
-    title: 'Una sorpresa muy especial te espera',
+    title: 'Una invitación muy especial te espera',
     button: 'Ver invitación',
   },
 
