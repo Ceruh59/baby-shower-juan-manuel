@@ -65,7 +65,7 @@
   background: rgba(255, 255, 255, 0.45);
 }
 
-/* Elefantes laterales que vuelan con scroll */
+/* Elefantes laterales: ocultos hasta su ancla; vuelan con scroll */
 .floaters {
   position: fixed;
   inset: 0;
@@ -76,21 +76,27 @@
 
 .floater {
   position: absolute;
-  width: min(38vw, 170px);
+  width: min(36vw, 160px);
   height: auto;
-  filter: drop-shadow(0 16px 22px rgba(42, 61, 82, 0.28));
-  will-change: transform;
-  opacity: 0.95;
+  filter: drop-shadow(0 18px 26px rgba(42, 61, 82, 0.32));
+  will-change: transform, opacity;
+  opacity: 0;
+  top: 58%;
+  transition: opacity 0.45s var(--ease-out-soft);
+}
+
+.floater.is-flying {
+  opacity: 1;
 }
 
 .floater--left {
-  left: -2%;
-  top: 55%;
+  left: -4%;
+  top: 62%;
 }
 
 .floater--right {
-  right: -2%;
-  top: 70%;
+  right: -4%;
+  top: 52%;
   width: min(34vw, 150px);
 }
 
@@ -157,21 +163,21 @@ main > section {
   filter: drop-shadow(0 12px 20px rgba(42, 61, 82, 0.2));
 }
 
-/* Cloud intro (Simpsons-style parting) */
+/* Cloud intro (hold + parting) */
 .cloud-intro {
   position: fixed;
   inset: 0;
   z-index: 90;
   pointer-events: none;
   overflow: hidden;
-  background: transparent;
+  background: rgba(168, 196, 220, 0.35);
 }
 
 .cloud-intro[hidden] {
   display: none !important;
 }
 
-.cloud-intro.is-active {
+.cloud-intro.is-visible {
   display: block !important;
 }
 

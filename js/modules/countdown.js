@@ -39,6 +39,8 @@ export function initCountdown() {
   if (Object.values(parts).some((el) => !el)) return;
 
   const doneMessage = document.querySelector('[data-countdown-done]');
+  const beforeLabel = document.querySelector('.countdown__before');
+  const afterLabel = document.querySelector('.countdown__after');
 
   /** Escribe el valor (2 dígitos) y dispara el pulso solo si cambió. */
   function setValue(el, value) {
@@ -56,6 +58,8 @@ export function initCountdown() {
     if (diff <= 0) {
       window.clearInterval(timer);
       root.hidden = true;
+      if (beforeLabel) beforeLabel.hidden = true;
+      if (afterLabel) afterLabel.hidden = true;
       if (doneMessage) doneMessage.hidden = false;
       return;
     }

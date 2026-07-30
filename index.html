@@ -37,10 +37,30 @@
   <!-- Globos animados en toda la página -->
   <div id="balloons" class="balloons" aria-hidden="true"></div>
 
-  <!-- Elefantes que "vuelan" con el scroll -->
+  <!-- Elefantes que aparecen al scroll y vuelan hacia arriba -->
   <div class="floaters" aria-hidden="true">
-    <img class="floater floater--left" data-fly="1.15" src="assets/images/elefante3.webp" alt="" width="520" height="924" decoding="async">
-    <img class="floater floater--right" data-fly="0.9" src="assets/images/elefante4.webp" alt="" width="480" height="695" decoding="async">
+    <img
+      class="floater floater--right"
+      data-floater
+      data-anchor="mensaje"
+      data-side="right"
+      data-fly="0.55"
+      src="assets/images/elefante3.webp"
+      alt=""
+      width="520"
+      height="924"
+      decoding="async">
+    <img
+      class="floater floater--left"
+      data-floater
+      data-anchor="detalles"
+      data-side="left"
+      data-fly="0.5"
+      src="assets/images/elefante4.webp"
+      alt=""
+      width="480"
+      height="695"
+      decoding="async">
   </div>
 
   <!-- ═══════════════ BIENVENIDA ═══════════════ -->
@@ -127,7 +147,7 @@
 
     <!-- CUENTA REGRESIVA -->
     <section id="cuenta" aria-labelledby="cuenta-titulo">
-      <h2 id="cuenta-titulo" class="section-title reveal" data-reveal="up">Cuenta regresiva</h2>
+      <p class="countdown__before section-title reveal" data-reveal="up" id="cuenta-titulo">Faltan</p>
 
       <div class="countdown panel reveal" data-reveal="scale" data-countdown>
         <div class="countdown__item">
@@ -150,6 +170,7 @@
           <span class="countdown__label">Segundos</span>
         </div>
       </div>
+      <p class="countdown__after reveal" data-reveal="up">para el evento</p>
       <p class="countdown__done" data-countdown-done hidden>¡Hoy es el gran día!</p>
     </section>
 
@@ -174,7 +195,7 @@
     <!-- RSVP -->
     <section id="rsvp" aria-labelledby="rsvp-titulo">
       <h2 id="rsvp-titulo" class="section-title reveal" data-reveal="up">Confírmanos tu asistencia</h2>
-      <p class="rsvp__subtitulo reveal" data-reveal="up">Puedes agregar a toda tu familia o grupo</p>
+      <p class="rsvp__subtitulo reveal" data-reveal="up">Agrega las personas que asistirán contigo</p>
 
       <form id="rsvp-form" class="panel" novalidate>
         <div id="guest-list" class="guest-list">
@@ -232,9 +253,11 @@
         height="879"
         decoding="async"
         loading="lazy">
-      <h2 id="cierre-titulo" class="sr-only">Agradecimiento</h2>
-      <p class="cierre__mensaje reveal" data-reveal="up">¡Te esperamos con los brazos abiertos!</p>
-      <p class="cierre__firma reveal" data-reveal="up">Con amor, Cristian &amp; Luisa</p>
+      <div class="cierre__card panel reveal" data-reveal="up">
+        <h2 id="cierre-titulo" class="sr-only">Agradecimiento</h2>
+        <p class="cierre__mensaje">¡Te esperamos!</p>
+        <p class="cierre__firma">Con cariño, Cristian &amp; Luisa</p>
+      </div>
       <footer>
         <p>Baby Shower de Juan Manuel · 15.08.2026</p>
       </footer>

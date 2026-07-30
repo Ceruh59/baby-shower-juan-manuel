@@ -32,13 +32,13 @@
   }
 
   .floater--left {
-    width: 190px;
-    left: 2%;
+    width: 180px;
+    left: 1%;
   }
 
   .floater--right {
-    width: 170px;
-    right: 2%;
+    width: 165px;
+    right: 1%;
   }
 
   .hero__elephant { width: min(50vw, 340px); }

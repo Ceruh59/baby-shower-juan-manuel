@@ -57,7 +57,8 @@ export const TEXTS = {
 
   // 4. Cuenta regresiva
   countdown: {
-    title: 'Cuenta regresiva',
+    title: 'Faltan',
+    after: 'para el evento',
     days: 'Días',
     hours: 'Horas',
     minutes: 'Minutos',
@@ -74,7 +75,7 @@ export const TEXTS = {
   // 6. RSVP
   rsvp: {
     title: 'Confírmanos tu asistencia',
-    subtitle: 'Puedes agregar a toda tu familia o grupo',
+    subtitle: 'Agrega las personas que asistirán contigo',
     nameLabel: 'Nombre del asistente',
     namePlaceholder: 'Escribe el nombre',
     addGuest: '+ Agregar otro asistente',
@@ -90,8 +91,8 @@ export const TEXTS = {
 
   // 7. Cierre
   closing: {
-    message: '¡Te esperamos con los brazos abiertos!',
-    signature: 'Con amor, Cristian & Luisa',
+    message: '¡Te esperamos!',
+    signature: 'Con cariño, Cristian & Luisa',
     footer: 'Baby Shower de Juan Manuel · 15.08.2026',
   },
 };

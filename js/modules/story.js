@@ -1,5 +1,5 @@
 /**
- * story.js — Split del nombre, elefantes que vuelan con scroll, inicio siempre arriba.
+ * story.js — Split del nombre + elefantes anclados a secciones que vuelan al scroll.
  */
 
 function forceStartAtTop() {
@@ -28,24 +28,61 @@ function splitHeroName() {
   target.dataset.splitDone = '1';
 }
 
+/**
+ * Cada elefante aparece solo cuando su sección ancla ya se leyó,
+ * y desde ahí sube (o baja al volver) con el scroll.
+ */
 function initFlyingElephants() {
-  const floaters = [...document.querySelectorAll('.floater[data-fly]')];
+  const floaters = [...document.querySelectorAll('[data-floater][data-anchor]')];
   if (floaters.length === 0) return;
 
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (prefersReduced) return;
+  const items = floaters.map((el) => {
+    const anchor = document.getElementById(el.dataset.anchor);
+    return {
+      el,
+      anchor,
+      fly: Number.parseFloat(el.dataset.fly) || 0.5,
+    };
+  }).filter((item) => item.anchor);
+
+  if (items.length === 0) return;
 
   let ticking = false;
 
   const update = () => {
-    const y = window.scrollY || window.pageYOffset || 0;
-    floaters.forEach((el) => {
-      const speed = Number.parseFloat(el.dataset.fly) || 1;
-      // Suben al hacer scroll hacia abajo (vuelan con los globos)
-      const offset = -y * speed * 0.35;
-      const sway = Math.sin((y + speed * 200) * 0.004) * 10;
-      el.style.transform = `translate3d(${sway.toFixed(1)}px, ${offset.toFixed(1)}px, 0)`;
+    const viewH = window.innerHeight || 1;
+
+    items.forEach(({ el, anchor, fly }) => {
+      const rect = anchor.getBoundingClientRect();
+      // Aparece cuando el final del ancla cruza ~55% de la pantalla
+      const releaseY = rect.bottom - viewH * 0.55;
+      // Cuánto se ha scrolleado desde el momento de aparición
+      const travel = -releaseY;
+
+      if (travel <= 0) {
+        el.classList.remove('is-flying');
+        el.style.opacity = '0';
+        el.style.transform = 'translate3d(0, 48px, 0)';
+        return;
+      }
+
+      el.classList.add('is-flying');
+      const rise = travel * fly;
+      const sway = Math.sin(travel * 0.012) * 8;
+      // Tope suave para que no se vayan demasiado lejos de golpe
+      const y = Math.min(rise, viewH * 1.6);
+
+      if (prefersReduced) {
+        el.style.opacity = '1';
+        el.style.transform = 'translate3d(0, 0, 0)';
+        return;
+      }
+
+      el.style.opacity = '1';
+      el.style.transform = `translate3d(${sway.toFixed(1)}px, ${(-y).toFixed(1)}px, 0)`;
     });
+
     ticking = false;
   };
 
@@ -56,6 +93,7 @@ function initFlyingElephants() {
   };
 
   window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
   update();
 }
 
@@ -65,7 +103,6 @@ export function initStory() {
   splitHeroName();
   initFlyingElephants();
 
-  // Por si no hay overlay
   if (!document.getElementById('welcome')) {
     document.body.classList.add('is-entered');
   }
