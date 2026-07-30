@@ -9,6 +9,7 @@ import { initBalloons } from './modules/balloons.js';
 import { initCountdown } from './modules/countdown.js';
 import { initMusic } from './modules/music.js';
 import { initRsvp } from './modules/rsvp.js';
+import { initVideo } from './modules/video.js';
 
 // Siempre empezar arriba (evita restaurar scroll al fondo)
 if ('scrollRestoration' in history) {
@@ -23,3 +24,4 @@ initReveal();
 initCountdown();
 initMusic();
 initRsvp();
+initVideo();

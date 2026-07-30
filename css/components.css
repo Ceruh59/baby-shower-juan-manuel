@@ -174,6 +174,40 @@
   margin-top: var(--space-md);
 }
 
+/* Ecografía */
+.section-lead {
+  margin: -0.75rem auto var(--space-lg);
+  max-width: 28ch;
+  font-size: 1.05rem;
+  font-weight: 400;
+  color: var(--texto-suave);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.video-card {
+  max-width: 420px;
+  margin-inline: auto;
+  padding: 0.75rem;
+  overflow: hidden;
+}
+
+.video-card__frame {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  background: linear-gradient(160deg, #1a2836, #2f4256);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  aspect-ratio: 3 / 4;
+}
+
+.video-card__video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  background: #1a2836;
+}
+
 /* Cards */
 .card {
   padding: var(--space-md);

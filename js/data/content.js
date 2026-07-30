@@ -47,6 +47,12 @@ export const TEXTS = {
     signature: 'Cristian & Luisa',
   },
 
+  // Ecografía
+  ultrasound: {
+    title: 'Nuestro pequeño milagro',
+    lead: 'Un vistazo a Juan Manuel',
+  },
+
   // 3. Detalles
   details: {
     title: 'Detalles del evento',

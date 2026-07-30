@@ -50,6 +50,10 @@
 
   .hero__elephant { width: min(62vw, 440px); }
   .cierre__elephant { width: min(52vw, 340px); }
+
+  .video-card {
+    max-width: 460px;
+  }
 }
 
 @media (min-width: 1024px) {
