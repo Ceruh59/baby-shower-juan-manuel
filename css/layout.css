@@ -2,6 +2,12 @@
    layout.css — Fondo fijo, capas y secciones
    ========================================================================== */
 
+@media (max-width: 680px) {
+  .balloon {
+    bottom: -12vh;
+  }
+}
+
 /* Fondo cuadros: fijo en viewport, nunca se mueve con el scroll */
 .page-bg {
   position: fixed;

@@ -17,7 +17,7 @@ export function initBalloons() {
     el.className = 'balloon';
     const left = 4 + Math.random() * 92;
     const size = 16 + Math.random() * 18;
-    const dur = 11 + Math.random() * 12;
+    const dur = 9 + Math.random() * 8;
     const delay = -Math.random() * 16;
     const drift = (Math.random() - 0.5) * 80;
     const color = COLORS[i % COLORS.length];
